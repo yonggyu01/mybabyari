@@ -51,32 +51,49 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {ref,onBeforeMount} from 'vue'
 import { useStore } from 'vuex';
+import { useRoute,useRouter } from 'vue-router';
 const store = useStore()
 const myform = ref(null)
 const myaccess = ref('')
-
+const router = useRouter()
+const route = useRoute()
+const kakaowin = ''
       const username = ref('')
        const hiding =ref(true)
  const signupbtn=()=>{
     hiding.value=!hiding.value
 }
+onBeforeMount(() => {
+    if(route.fullPath.length>1){
+        console.log(route.query.code)
+        // opener.kakaoreturn(route.query.code)
+        kakaoreturn(route.query.code)
+    }
+})
+
+/// z코드수정중임 여기서 수정해야함  -> 카카오 로그인페이지를 루트페이지에서 해결해야함  
 const kakao =async(value)=>{
       const url ='https://kauth.kakao.com/oauth/authorize'
       const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-      const redirect_uri = 'http://localhost:8080/kakao'
+        console.log(location.href)
+      const redirect_uri = `${location.href}`
       const response_type = 'code'
       const nonce = 'myfirstid'
       let option = 'resizable=yes'
         const scope = 'profile_nickname'
         let fullurl = url +`?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}`
-        window.open(fullurl, '', option)
+  
+        kakaowin= window.open(fullurl, '', option)
+        setTimeout(() => {
+            kakaowin.close()
+        }, 500);
       }
     const kakaoreq= async (value)=>{
       const url ='https://kauth.kakao.com/oauth/token'
       const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-      const redirect_uri = 'http://localhost:8080/kakao'
+      const redirect_uri = `${location.href}`
       const client_secret = 'kUetYsMO5y8vv2WL7KJJCunRkiAgvLFf'
       const grant_type = 'authorization_code'
       const nonce = 'myfirstid'
@@ -113,7 +130,7 @@ const kakao =async(value)=>{
       console.error(error);
     }
   }
-  window.kakaoreturn=(value)=>{
+  function kakaoreturn(value){
       console.log(value)
       store.commit('setmykakaocode',value) 
       kakaoreq(value)

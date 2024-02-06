@@ -31,7 +31,7 @@ const selecttext= (num)=>{
     <div>
         <div class="babybox">
         <div class="textbox" v-for="(x, idx) in textme" :key="x?.post_id" @click="selecttext(idx)">
-            <img :src="x.body.match(par)" alt="" class="mainimg" v-if="x.body.match(par)">
+            <img :src="x.body.match(par)" alt="" class="mainimg" v-if="x.body.match(par)"><span class="nullimg" v-else></span>
             <div class="textlinewrap">
                 <router-link to="">
                      <span class="author"> <img :src="`https://steemitimages.com/u/${x?.author}/avatar/small`" alt="" class="userlogo" > : {{ x?.author }}</span>
@@ -46,10 +46,18 @@ const selecttext= (num)=>{
 </template>
 <style scoped>
 .babybox {
-    width: 90vw;
+    max-width: calc(100vw - 80px);
     margin: 20px auto 0;
     box-sizing: border-box;
     overflow-x: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(900px, 1fr));
+
+}
+.nullimg{
+    min-width: 120px;
+    max-width: 120px;
+    height: 100px;
+    background-color: goldenrod;
 }
 .userlogo{
     width: 30px;
@@ -62,7 +70,7 @@ const selecttext= (num)=>{
     object-fit: cover;
 }
 .textbox {
-    width: 95%;
+    /* width: 95%; */
 display: flex;
 border: 1px solid rgb(248, 152, 74);
     overflow: hidden;
@@ -73,6 +81,7 @@ border: 1px solid rgb(248, 152, 74);
     border-top-right-radius: 15px;
     box-sizing: border-box;
 }
+
 .textbox:hover{
     box-shadow: 1px 1px 5px red;
     box-sizing: border-box;
@@ -106,5 +115,10 @@ border: 1px solid rgb(248, 152, 74);
     display: flex;
     align-items: center;
     margin-bottom: 5px;
+}
+@media (min-width: 340px) {
+  .babybox {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
 }
 </style>

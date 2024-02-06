@@ -22,7 +22,7 @@
         </div>
         <div class="loginbtn" :style="signupcom">
             <h1><a href="#none" @click="slideupdown">Welcome</a></h1>
-            <p>저의 영어공부 홈페이지에 방문하신걸 환영합니다.</p>
+            <p>육아정보 페이지에 오신걸 환영합니다.</p>
             <form action="server.js" method="post" name="signlog" id="signlog" >
                 <fieldset >
                     <legend class="xx"> 회원가입 및 로그인 </legend>

@@ -18,9 +18,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 const myform = ref(null)
+const route=useRoute()
 Kakao.init('e95013522170bcd46c5917164368de34');
+
 let mypage = ref('')
 const userid = ref('')
 const store = useStore()

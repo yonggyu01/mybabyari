@@ -1,11 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Mainview from '../views/FirstViewpage.vue'
-
+import { useStore } from 'vuex'
+const store = useStore()
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Mainview
+    component: Mainview,
+    beforeEnter: (to, from, next) => {
+      if( from.fullPath.length > 1  ){
+        store
+      }
+      next()
+    }
+    
+    
   },
   {
     path : '/login',
@@ -89,6 +98,11 @@ const routes = [
     path:'/perchasebaby',
     name : 'perchasebaby',
     component:()=> import('../views/perchasebaby.vue')
+  },
+  {
+    path : '/perchSub/:item',
+    name : 'perchSub',
+    component:()=> import('../views/perchSubpage.vue')
   }
 
 ]

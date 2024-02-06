@@ -2,14 +2,15 @@
 <div class="titlep">
     <h1> 아기용품 구매페이지 입니다.</h1>
     <div class="maindiv">
-  <div id="gallery">
-    <!-- <router-link to=""></router-link> -->
-    <div class="myfig" v-for="(x,idx) in babyp" :key="'baby'+idx">
+  
+      <div id="gallery">
+        <div class="myfig" v-for="(x,idx) in babyp" :key="'baby'+idx">
+      <router-link to="" @click.prevent="movepage(idx)">
       <img :src="x.src" alt="기저귀">
       <span>{{x.title}}  </span>
       <p>{{x.price}}</p>
+    </router-link>
     </div>
-   
   </div>
 </div>
 </div>
@@ -17,6 +18,20 @@
 </template>
 
 <script setup>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import {ref} from 'vue'
+const store = useStore()
+const router = useRouter()
+function movepage(number){
+  router.push({
+    name:'perchSub',
+    params:{
+      item : number
+    }
+  })
+}
+
 const babyp = [
     {
         title : '기본기저귀',
@@ -127,7 +142,7 @@ const babyp = [
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
-  max-width: 100vw;
+  max-width: calc(100vw - 40px);
   padding: 20px;
   -webkit-perspective: 0;
   perspective: 0;
@@ -135,8 +150,7 @@ const babyp = [
 }
 
 #gallery .myfig {
-  --duration: 1s;
-  --delay: calc(-0.5 * var(--duration));
+  box-sizing: border-box;
   position: relative;
   display: inline-block;
   margin: var(--adjust-size);
