@@ -1,7 +1,7 @@
 <template>
   <Navimunu  v-on:pass="newpass" v-show="loginnow"> </Navimunu>
   <sidebar :class="{'sideon' : !this.$store.getters.getsidebtnstate}"></sidebar>
-  <router-view />
+  <router-view class="mainvue" />
   
   <FootCompo v-show="loginnow"></FootCompo>
      
@@ -51,7 +51,7 @@
   /* text-align: center; */
   color: #2c3e50;
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   overflow: hidden;
   box-sizing: border-box;
 
@@ -70,5 +70,10 @@ a{
 }
 .sideon{
   left:0
+}
+.mainvue{
+  padding-top: 60px;
+  padding-bottom: 60px;
+  box-sizing: border-box;
 }
 </style>

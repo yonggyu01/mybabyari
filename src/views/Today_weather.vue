@@ -1,19 +1,30 @@
 <template>
   <div class="location">
     <div class="twrap">
-      <h1 v-html="nowweather.name" ></h1>
-      <p v-html="nowweather.weather"></p>
+      <div class="titlewrap">
+        <h2 class="city">{{ nowweather.name }}</h2>
+      </div>
+      <div class="maint">
+        
+        <p>{{month}}월 {{ day }}일 {{ weather2 }}</p>
+          <p style="font-size: 3em;">{{ nowtemp }}&#8451;</p>
+          <p style="font-size: 2em; font-weight: bold;">{{ weather1 }}</p>
+        
+      </div>
 
-      <img :src="imgs" alt="날씨사진">
     </div>
-    <button @click="weather">가져오기</button>
-  </div>
+  </div>  
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const nowweather = ref('')
-
+import { onMounted, ref } from 'vue'
+const nowweather = ref([])
+const weather1 = ref('')
+const weather2 = ref('')
+const nowtemp = ref('')
+const date = new Date()
+const month = date.getMonth()+1
+const day = date.getDate()
 // const whereRu = ref('서울')
 // const temp = ref('맑음')
 const imgs = ref('')
@@ -34,6 +45,9 @@ function errorGeo(){
   alert('GEO 사용 설정을 해야합니다.')
 }
 navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
+setTimeout(()=>{
+  weather()
+},300)
 
 const weather = async () => {
   if(nowlat.length== 0){
@@ -54,6 +68,11 @@ const weather = async () => {
      const result = await mydata.text()
      const parsedata = JSON.parse(result)
      console.log(parsedata)
+     nowweather.value = parsedata
+     weather1.value = parsedata?.weather[0]?.main
+     weather2.value = parsedata?.weather[0]?.description
+     nowtemp.value = (parsedata?.main?.temp - 273.15).toFixed(1)
+
 
   }
 //   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${initialLat}&lon=${initialLon}&appid=${API_key}&lang=kr`
@@ -64,6 +83,32 @@ const weather = async () => {
 
 // weather()
 
+
 </script>
 
-<style></style>
+<style scoped>
+
+.location {
+  background-color: #e7af4779;
+  height: 100vh;
+ 
+}
+.twrap{
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  flex-direction: column;
+  height: 40vh;
+}
+.city{
+  font-size: 3em;
+}
+.maint{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap:5px
+}
+</style>

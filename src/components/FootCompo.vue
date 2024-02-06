@@ -20,7 +20,7 @@ sports_esports
 
 </span>
       </router-link> |
-    <router-link to="/perchase"><span  class="routee"><span class="material-symbols-outlined" style="font-size: x-large">add_shopping_cart</span>
+    <router-link to="/perchasebaby"><span  class="routee"><span class="material-symbols-outlined" style="font-size: x-large">add_shopping_cart</span>
       <span v-if="ttfalse"> 충전하기</span> <span v-else>Purchase</span></span>
      </router-link>
 
@@ -47,13 +47,12 @@ export default {
 </script>
 <style scoped>
 .FootCompo{
-    width: 100vw;
-    position: absolute;
+  width: 100vw;
+    position: fixed;
     display: flex;
     justify-content: center;
-    bottom:0;
+    top:calc(100vh - 80px);
   margin: 0 auto;
-    transform: translateX();
     background-color: #e7af47;
 
 }

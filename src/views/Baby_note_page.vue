@@ -1,19 +1,19 @@
 <template>
     <div>
         <div class="wrapbox">
-            <h1>{{ mypost.title }}</h1>
+            <h1>{{ mypost?.title }}</h1>
             <div class="username">
-                <img :src="`https://steemitimages.com/u/${mypost.author}/avatar/small`" alt="" class="userlogo">
-                <h5>{{ mypost.author }}</h5>
+                <img :src="`https://steemitimages.com/u/${mypost?.author}/avatar/small`" alt="" class="userlogo">
+                <h5>{{ mypost?.author }}</h5>
             </div>
             <br>
-            <span v-for=" (x, idx ) of mypost.body.match(hangul)" :key="'my' + idx">
+            <span v-for=" (x, idx ) of mypost?.body?.match(hangul)" :key="'my' + idx">
                 <p> {{ x }} </p>
             </span>
             <br>
             <div class="flexbox">
 
-                <img :src="mypost.body.match(par)[0]" alt="" class="img1">
+                <img :src="mypost?.body?.match(par)" alt="" class="img1" v-if="mypost?.body?.match(par)">
             </div>
 
         </div>
@@ -46,6 +46,7 @@ onUnmounted(() => {
 .flexbox{
     display: flex;
     justify-content: center ;
+    height: 60%;
 }
 .img1 {
 
@@ -64,12 +65,15 @@ onUnmounted(() => {
 }
 .wrapbox{
     width: 80vw;
-    height: 90vh;
-    margin: 0 auto 0;
+    height: 100vh;
+    margin: 0 auto 0px;
     border-left: 1px solid goldenrod;
     border-right: 1px solid goldenrod;
     padding-left: 5px;
     padding-top: 5px;
+    /* padding-bottom: 30px; */
+    box-sizing: border-box;
+
 }
 .wrapbox h1{
     margin: 10px 0 0 0;

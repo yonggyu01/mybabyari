@@ -60,12 +60,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .Navimenu{
-  position: relative;
+  position: fixed;
   width: 100vw;
   min-width: 320px;
-  /* background-color: #F3C5FF; */
+  background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.287) ;
   z-index: 1;
+  top: 0
 
 }
 nav { 

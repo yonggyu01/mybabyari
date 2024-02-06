@@ -31,7 +31,7 @@ const selecttext= (num)=>{
     <div>
         <div class="babybox">
         <div class="textbox" v-for="(x, idx) in textme" :key="x?.post_id" @click="selecttext(idx)">
-            <img :src="x?.body?.match(par)" alt="" class="mainimg">
+            <img :src="x.body.match(par)" alt="" class="mainimg" v-if="x.body.match(par)">
             <div class="textlinewrap">
                 <router-link to="">
                      <span class="author"> <img :src="`https://steemitimages.com/u/${x?.author}/avatar/small`" alt="" class="userlogo" > : {{ x?.author }}</span>

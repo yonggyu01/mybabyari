@@ -85,6 +85,11 @@ const routes = [
     name : 'babydetail',
     component:()=> import('../views/Baby_note_page.vue')
   },
+  {
+    path:'/perchasebaby',
+    name : 'perchasebaby',
+    component:()=> import('../views/perchasebaby.vue')
+  }
 
 ]
 const router = createRouter({
