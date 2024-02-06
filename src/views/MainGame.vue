@@ -84,7 +84,6 @@ export default {
        return `transform: perspective(700px) rotateX(360deg) rotateY(360deg) translate3d(${this.leftright}px, 0px, ${this.moving}px);transform-origin: 50% 50% ${-this.moving}px`
   },
 
-
   }
 }
 </script>
