@@ -20,8 +20,8 @@ sports_esports
 
 </span>
       </router-link> |
-    <router-link to="/perchasebaby"><span  class="routee"><span class="material-symbols-outlined" style="font-size: x-large">add_shopping_cart</span>
-      <span v-if="ttfalse"> 충전하기</span> <span v-else>Purchase</span></span>
+    <router-link to="/baguni"><span  class="routee"><span class="material-symbols-outlined" style="font-size: x-large">add_shopping_cart</span>
+      <span v-if="ttfalse"> 장바구니</span> <span v-else>shopping_cart</span></span>
      </router-link>
 
     </div>

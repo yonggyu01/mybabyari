@@ -103,6 +103,11 @@ const routes = [
     path : '/perchSub/:item',
     name : 'perchSub',
     component:()=> import('../views/perchSubpage.vue')
+  },
+  {
+    path : '/baguni',
+    name : 'baguni',
+    component:()=> import('../views/baguni.vue')
   }
 
 ]

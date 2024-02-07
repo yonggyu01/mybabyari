@@ -20,8 +20,99 @@ export default createStore({
     mykakaocode:'',
     dicemenu:true,
     babynote:null,
-    kakaoauth:''
-
+    kakaoauth:'',
+    naverauth:'',
+    babyproduct:[
+      {
+          title : '기본기저귀',
+          price : '50,000원',
+          src : 'https://cdn.oasis.co.kr:48581/product/81083/thumb/00f5c952-4c2f-48bb-b7a3-a0becbd78106.jpg'
+      },
+      {
+          title : '특대형 기저귀',
+          price : '50,000원',
+          src : 'https://digitalchosun.dizzo.com/site/data/img_dir/2020/06/26/2020062680175_0.jpg'
+      },
+      {
+          title : '킨도 기저귀',
+          price : '250,000원',
+          src : 'https://kindoh.co.kr/web/product/big/202010/54666d1871db1ac61548fdf42bd120ae.jpg'
+      },
+      {
+          title : '하기스 기저귀',
+          price : '500,000원',
+          src : 'https://i.namu.wiki/i/0YFc2p2YQTYw9s0a7vN7NaKEEOAKbgOm1eVSxexH4RsWKhcFg-OT7xCxo3Np6iMpIPApp35HbD15BtRyteokUw.webp'
+      },
+      {
+          title : '액상분유',
+          price : '3,050,000원',
+          src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
+      },
+      {
+          title : '앱솔루트',
+          price : '13,050,000원',
+          src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
+      },
+      {
+          title : '쪽족이',
+          price : '213,050,000원',
+          src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
+      },
+      {
+          title : '아기옷',
+          price : '50,000원',
+          src : 'https://m.ppoya.co.kr/web/product/big/202308/659cdc5ab4570dbde53da6e4cb84ea1c.jpg'
+      },
+      {
+          title : '특대형 기저귀',
+          price : '50,000원',
+          src : 'https://digitalchosun.dizzo.com/site/data/img_dir/2020/06/26/2020062680175_0.jpg'
+      },
+      {
+          title : '킨도 기저귀',
+          price : '250,000원',
+          src : 'https://kindoh.co.kr/web/product/big/202010/54666d1871db1ac61548fdf42bd120ae.jpg'
+      },
+      {
+          title : '하기스 기저귀',
+          price : '500,000원',
+          src : 'https://i.namu.wiki/i/0YFc2p2YQTYw9s0a7vN7NaKEEOAKbgOm1eVSxexH4RsWKhcFg-OT7xCxo3Np6iMpIPApp35HbD15BtRyteokUw.webp'
+      },
+      {
+          title : '액상분유',
+          price : '3,050,000원',
+          src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
+      },
+      {
+          title : '앱솔루트',
+          price : '13,050,000원',
+          src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
+      },
+      {
+          title : '쪽족이',
+          price : '213,050,000원',
+          src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
+      },
+      {
+          title : '아기옷',
+          price : '50,000원',
+          src : 'https://m.ppoya.co.kr/web/product/big/202308/659cdc5ab4570dbde53da6e4cb84ea1c.jpg'
+      },
+      
+  ],
+    firstlogin:0,
+    weather : {
+      lat : '',
+      lon : ''
+    },
+    yourposition : {
+      top : false,
+      left : false,
+      right:false,
+      buttom:false,
+      back : false,
+      front:false
+    }
   },
   getters: {
     userlogin(state){
@@ -66,8 +157,40 @@ export default createStore({
       },
       getkakaoauth(state){
         return state.kakaoauth
-      }
-
+      },
+      getnaverauth(state){
+        return state.naverauth
+      },
+      getbabyproduct(state){
+        return state.babyproduct
+      },
+      getfirstlogin(state){
+        return state.firstlogin
+      },
+      getlat(state){
+      return  state.weather.lat
+      },
+      getlon(state){
+        return state.weather.lon
+      },
+      getfront(state){
+        return state.yourposition.front
+      },
+      gettop(state){
+        return state.yourposition.top
+      },
+      getleft(state){
+        return state.yourposition.left
+      },
+      getright(state){
+        return state.yourposition.right
+      },
+      getbuttom(state){
+        return state.yourposition.buttom
+      },
+      getback(state){
+        return state.yourposition.back
+      },
   },
   mutations: {
     setttfalse(state,value){
@@ -132,7 +255,31 @@ export default createStore({
     },
     setkakaoauth(state,value){
       return state.kakaoauth = value
-    }
+    },
+    setnaverauth(state,value){
+      return state.naverauth = value
+    },
+    setfirstlogin(state,value){
+      return state.firstlogin =value
+    },
+    setlon(state,value){
+      return state.weather.lon = value
+    },
+    setlat(state,value){
+      return state.weather.lat = value
+    },
+    setfront(state,value){
+      return state.yourposition.front = value
+    },
+    setbuttom(state,value){
+      return state.yourposition.buttom = value
+    },
+    setleft(state,value){
+      return state.yourposition.left = value
+    },
+    setright(state,value){
+      return state.yourposition.right = value
+    },
   },
   actions: {
      //dispatch로 실행해야함

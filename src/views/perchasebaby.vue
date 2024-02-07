@@ -4,7 +4,7 @@
     <div class="maindiv">
   
       <div id="gallery">
-        <div class="myfig" v-for="(x,idx) in babyp" :key="'baby'+idx">
+        <div class="myfig" v-for="(x,idx) in getbaby" :key="'baby'+idx">
       <router-link to="" @click.prevent="movepage(idx)">
       <img :src="x.src" alt="기저귀">
       <span>{{x.title}}  </span>
@@ -20,7 +20,7 @@
 <script setup>
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 const store = useStore()
 const router = useRouter()
 function movepage(number){
@@ -31,85 +31,8 @@ function movepage(number){
     }
   })
 }
-
-const babyp = [
-    {
-        title : '기본기저귀',
-        price : '50,000원',
-        src : 'https://cdn.oasis.co.kr:48581/product/81083/thumb/00f5c952-4c2f-48bb-b7a3-a0becbd78106.jpg'
-    },
-    {
-        title : '특대형 기저귀',
-        price : '50,000원',
-        src : 'https://digitalchosun.dizzo.com/site/data/img_dir/2020/06/26/2020062680175_0.jpg'
-    },
-    {
-        title : '킨도 기저귀',
-        price : '250,000원',
-        src : 'https://kindoh.co.kr/web/product/big/202010/54666d1871db1ac61548fdf42bd120ae.jpg'
-    },
-    {
-        title : '하기스 기저귀',
-        price : '500,000원',
-        src : 'https://i.namu.wiki/i/0YFc2p2YQTYw9s0a7vN7NaKEEOAKbgOm1eVSxexH4RsWKhcFg-OT7xCxo3Np6iMpIPApp35HbD15BtRyteokUw.webp'
-    },
-    {
-        title : '액상분유',
-        price : '3,050,000원',
-        src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
-    },
-    {
-        title : '앱솔루트',
-        price : '13,050,000원',
-        src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
-    },
-    {
-        title : '쪽족이',
-        price : '213,050,000원',
-        src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
-    },
-    {
-        title : '아기옷',
-        price : '50,000원',
-        src : 'https://m.ppoya.co.kr/web/product/big/202308/659cdc5ab4570dbde53da6e4cb84ea1c.jpg'
-    },
-    {
-        title : '특대형 기저귀',
-        price : '50,000원',
-        src : 'https://digitalchosun.dizzo.com/site/data/img_dir/2020/06/26/2020062680175_0.jpg'
-    },
-    {
-        title : '킨도 기저귀',
-        price : '250,000원',
-        src : 'https://kindoh.co.kr/web/product/big/202010/54666d1871db1ac61548fdf42bd120ae.jpg'
-    },
-    {
-        title : '하기스 기저귀',
-        price : '500,000원',
-        src : 'https://i.namu.wiki/i/0YFc2p2YQTYw9s0a7vN7NaKEEOAKbgOm1eVSxexH4RsWKhcFg-OT7xCxo3Np6iMpIPApp35HbD15BtRyteokUw.webp'
-    },
-    {
-        title : '액상분유',
-        price : '3,050,000원',
-        src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
-    },
-    {
-        title : '앱솔루트',
-        price : '13,050,000원',
-        src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
-    },
-    {
-        title : '쪽족이',
-        price : '213,050,000원',
-        src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
-    },
-    {
-        title : '아기옷',
-        price : '50,000원',
-        src : 'https://m.ppoya.co.kr/web/product/big/202308/659cdc5ab4570dbde53da6e4cb84ea1c.jpg'
-    },
-    
-]
+const getbaby = computed(()=>{
+  return store.getters.getbabyproduct})
 
 
 </script>

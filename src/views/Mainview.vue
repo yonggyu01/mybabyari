@@ -1,48 +1,51 @@
 <template>
-  <div :class="{'mainsite':true,'cube-wrapper':!dice,'backwhite':dice ,'front' : direction1.front ,'top' :direction1.top, 'left':direction1.left,'right':direction1.right, 'back':direction1.back, 'buttom' :direction1.buttom }">
-    <div :class="{'mybox':true , 'cube-front' : !dice}"> 
-      <router-link to="/weather">
-      <span class="material-symbols-outlined">
-      event_note
-      </span><h2 v-if="ttfalse">오늘의 산책 날씨</h2><h2 v-else>Today_weather</h2>
-    </router-link>
-    </div>
-    <div :class="{'mybox':true , 'cube-back' : !dice}"> 
-      <router-link to="/baby">
-      <span class="material-symbols-outlined">
-      newspaper
-      </span><h2 v-if="ttfalse">육아수첩</h2><h2 v-else>Baby_Note</h2>
+
+
+    <div :class="{'mainsite':true,'cube-wrapper':!dice,'backwhite':dice, 'front' : front, 'buttom' : buttom, 'left' : left, 'right' : right}">
+      <div :class="{'mybox':true , 'cube-front' : !dice}"> 
+        <router-link to="/weather">
+        <span class="material-symbols-outlined">
+        event_note
+        </span><h2 v-if="ttfalse">오늘의 산책 날씨</h2><h2 v-else>Today_weather</h2>
       </router-link>
+      </div>
+      <div :class="{'mybox':true , 'cube-back' : !dice}"> 
+        <router-link to="/baby">
+        <span class="material-symbols-outlined">
+        newspaper
+        </span><h2 v-if="ttfalse">육아수첩</h2><h2 v-else>Baby_Note</h2>
+        </router-link>
+      </div>
+      <div  :class="{'mybox':true , 'cube-left' : !dice}"> 
+        <a href="#none">
+        <span class="material-symbols-outlined">
+        menu_book
+      </span><h2 v-if="ttfalse">이번주에 어디가?</h2><h2 v-else>go where?</h2>
+        </a>
+      </div>
+      <div  :class="{'mybox':true , 'cube-right' : !dice}"> 
+        <router-link to='/gemini'>
+        <span class="material-symbols-outlined">
+  dictionary
+  </span><h2 v-if="ttfalse">제미니 단어장</h2><h2 v-else>Dictionary</h2>
+        </router-link>
+      </div>
+      <div  :class="{'mybox':true , 'cube-top' : !dice}"> 
+        <a href="#none">
+        <span class="material-symbols-outlined">
+  video_camera_front
+  </span><h2 v-if="ttfalse">육아정보 유튜브</h2><h2 v-else>Baby Tube</h2>
+        </a>
+      </div>
+      <div  :class="{'mybox':true , 'cube-bottom' : !dice}"> 
+        <router-link to="/perchasebaby">
+        <span class="material-symbols-outlined">
+          shopping_bag
+  </span><h2 v-if="ttfalse">쇼핑하기</h2><h2 v-else>shopping</h2>
+        </router-link>
+      </div>
     </div>
-    <div  :class="{'mybox':true , 'cube-left' : !dice}"> 
-      <a href="#none">
-      <span class="material-symbols-outlined">
-      menu_book
-    </span><h2 v-if="ttfalse">이번주에 어디가?</h2><h2 v-else>go where?</h2>
-      </a>
-    </div>
-    <div  :class="{'mybox':true , 'cube-right' : !dice}"> 
-      <router-link to='/gemini'>
-      <span class="material-symbols-outlined">
-dictionary
-</span><h2 v-if="ttfalse">제미니 단어장</h2><h2 v-else>Dictionary</h2>
-      </router-link>
-    </div>
-    <div  :class="{'mybox':true , 'cube-top' : !dice}"> 
-      <a href="#none">
-      <span class="material-symbols-outlined">
-video_camera_front
-</span><h2 v-if="ttfalse">육아정보 유튜브</h2><h2 v-else>Baby Tube</h2>
-      </a>
-    </div>
-    <div  :class="{'mybox':true , 'cube-bottom' : !dice}"> 
-      <a href="#none" @click="this.$router.push('/level')">
-      <span class="material-symbols-outlined">
-manufacturing
-</span><h2 v-if="ttfalse">이벤트</h2><h2 v-else>Difficulty change</h2>
-      </a>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -51,12 +54,12 @@ import { useStore } from 'vuex'
 export default {
   setup(){
     const store = useStore()
-    const front=false
-        const top=false
-        const left=false
-        const right=false
-        const buttom=false
-        const back=false
+     const front = computed(()=> store.getters.getfront)
+        const top=computed(()=>store.getters.gettop)
+        const left=computed(()=>store.getters.getleft)
+        const right=computed(()=>store.getters.getright)
+        const buttom=computed(()=>store.getters.getbuttom)
+        const back=store.getters.getback
     const dice = computed(()=>{
       return store.getters.getdicemenu
     })
@@ -66,10 +69,17 @@ export default {
     const direction1 = reactive({
             front,top,left,right,buttom,back
         })
-  const rotateclass = computed(()=>{
-    return 
-  })
-
+ 
+  function onGeoOk(position) {
+  const lat = position.coords.latitude;
+   store.commit('setlat',lat.toFixed(4))
+   const lon = position.coords.longitude;
+   store.commit('setlon',lon.toFixed(4))
+}
+function errorGeo(){
+  alert('GEO 사용 설정을 해야합니다.')
+}
+navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
         let removeclass=['front','top','left','right','buttom','back']    
    const rotatebtn =(direction)=>{
     console.log(direction)
@@ -83,9 +93,6 @@ export default {
         }
     }
     }
-
-
-
 
     if(store.getters.getnowloading==false){
       let nowloading = document.createElement('div')
@@ -130,7 +137,7 @@ export default {
     store.commit('setnowloading',true)
     })
   }
-    return{ttfalse,store,dice,rotateclass,rotatebtn,direction1
+    return{ttfalse,store,dice,rotatebtn,direction1,front,right,left,buttom
 
     }
   }
@@ -142,7 +149,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.arrowleft{
+  position: absolute;
+  left : 30vw
+}
+.myboxs{
+  position: relative;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -230,7 +243,7 @@ display: none;
 } */
 
 .cube-wrapper.top {
-    transform: perspective(2700px) rotateX(-90deg) rotateY(-45deg) 
+    transform: perspective(2700px) rotateX(-90deg) rotateY(-45deg) scale3d(.4, .4, 0.4)
     matrix3d( 
         cos(var(--applyAngle)), 0, sin(var(--applyAngle) * -1), 0, 
         0, 1, 0, 0, 
@@ -239,39 +252,39 @@ display: none;
     
 }
 .cube-wrapper.front{
-    transform: perspective(2700px) rotateX(0deg) rotateY(-45deg) 
-    matrix3d( 
+    transform: perspective(2700px) rotateX(105deg) rotateY(-45deg) scale3d(.4, .4, 0.4)
+    /* matrix3d( 
         cos(var(--applyAngle)), 0, sin(var(--applyAngle) * -1), 0, 
         0, 1, 0, 0, 
         sin(var(--applyAngle)), 0, cos(var(--applyAngle)), 0, 
-        0, 0, 0, 1 );
+        0, 0, 0, 1 ); */
 
 }
 .cube-wrapper.left{
-    transform: perspective(2700px) rotateX(0deg) rotateY(45deg) 
-    matrix3d( 
+    transform: perspective(2700px) rotateX(-20deg) rotateY(240deg) scale3d(.5, .5, 0.5)
+    /* matrix3d( 
         cos(var(--applyAngle)), 0, sin(var(--applyAngle) * -1), 0, 
         0, 1, 0, 0, 
         sin(var(--applyAngle)), 0, cos(var(--applyAngle)), 0, 
-        0, 0, 0, 1 );
+        0, 0, 0, 1 ); */
 
 }
 .cube-wrapper.right{
-    transform: perspective(2700px) rotateX(0deg) rotateY(-45deg) 
-    matrix3d( 
+    transform: perspective(2700px) rotateX(-10deg) rotateY(130deg) scale3d(.4, .4, 0.4)
+    /* matrix3d( 
         cos(var(--applyAngle)), 0, sin(var(--applyAngle) * -1), 0, 
         0, 1, 0, 0, 
         sin(var(--applyAngle)), 0, cos(var(--applyAngle)), 0, 
-        0, 0, 0, 1 );
+        0, 0, 0, 1 ); */
 
 }
 .cube-wrapper.buttom{
-    transform: perspective(2700px) rotateX(0deg) rotateY(-45deg) 
-    matrix3d( 
+    transform: perspective(2700px) rotateX(-170deg) rotateY(-15deg) scale3d(.5, .5, 0.5)
+    /* matrix3d( 
         cos(var(--applyAngle)), 0, sin(var(--applyAngle) * -1), 0, 
         0, 1, 0, 0, 
         sin(var(--applyAngle)), 0, cos(var(--applyAngle)), 0, 
-        0, 0, 0, 1 );
+        0, 0, 0, 1 ); */
 
 }
 .cube-wrapper.back{

@@ -40,7 +40,7 @@
 
     </div>
     <div class="buttonwraping">
-        <button type="button" id="naversign" >네이버</button>
+        <button type="button" id="naversign" @click="req">네이버</button>
         <button type="button" id="kakaosign" @click="kakao">카카오톡</button>
         <form action="" ref="myform" > 
               </form>
@@ -55,11 +55,12 @@ import {ref,onBeforeMount} from 'vue'
 import { useStore } from 'vuex';
 import { useRoute,useRouter } from 'vue-router';
 const store = useStore()
+let redirect_uri = `${location.href}`
 const myform = ref(null)
 const myaccess = ref('')
 const router = useRouter()
 const route = useRoute()
-const kakaowin = ''
+let kakaowin = ref('')
       const username = ref('')
        const hiding =ref(true)
  const signupbtn=()=>{
@@ -67,38 +68,48 @@ const kakaowin = ''
 }
 onBeforeMount(() => {
     if(route.fullPath.length>1){
-        console.log(route.query.code)
+        console.log(route.query.code, '코드임')
         // opener.kakaoreturn(route.query.code)
         kakaoreturn(route.query.code)
+ 
     }
 })
 
 /// z코드수정중임 여기서 수정해야함  -> 카카오 로그인페이지를 루트페이지에서 해결해야함  
-const kakao =async(value)=>{
+const kakao =async()=>{
       const url ='https://kauth.kakao.com/oauth/authorize'
       const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-        console.log(location.href)
-      const redirect_uri = `${location.href}`
+        // console.log(location.href)
+      
+        if(location.href.match(/#none/gm)){
+            location.href=location.href.replace(/#none/gm,'')
+      }
       const response_type = 'code'
       const nonce = 'myfirstid'
       let option = 'resizable=yes'
         const scope = 'profile_nickname'
-        let fullurl = url +`?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}`
+        let fullurl = url +`?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}&scope=${encodeURI(scope)}`
   
-        kakaowin= window.open(fullurl, '', option)
-        setTimeout(() => {
-            kakaowin.close()
-        }, 500);
+        kakaowin.value= window.open(fullurl, '', option)
+        // console.log(kakaowin.value.location.href.match(/(?<==).+[^#\none]/gm))
+        if(store.getters.getfirstlogin != 0){
+            setTimeout(() => {
+                    kakaoreq(kakaowin.value.location.href.match(/(?<==).+[^#\none]/gm))
+                    kakaowin.value.close()
+            }, 300);   
+        }
+        store.commit('setfirstlogin', 1)
       }
     const kakaoreq= async (value)=>{
+
       const url ='https://kauth.kakao.com/oauth/token'
       const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-      const redirect_uri = `${location.href}`
+    
       const client_secret = 'kUetYsMO5y8vv2WL7KJJCunRkiAgvLFf'
       const grant_type = 'authorization_code'
       const nonce = 'myfirstid'
       const scope = 'profile_nickname'
-      const code =value
+      const code =value[0]  
       let form_data = new FormData()
       form_data.append('client_id',client_id)
       form_data.append('redirect_uri',redirect_uri)
@@ -112,10 +123,9 @@ const kakao =async(value)=>{
       // POST 방식 Data encoding 을 해야하며  해당 encoding을 해주는 기능임  new URLSearchParams()
 	    let url_form_data = new URLSearchParams(form_data)
     try{
-        console.log('code' ,value )
      const response = await fetch(url,{
       method : 'POST',
-      headers:{'Content-type'	:'application/x-www-form-urlencoded;charset=utf-8'},
+      headers:{'Content-type':'application/x-www-form-urlencoded;charset=utf-8'},
       body:url_form_data
      })
      const result = await response.text()
@@ -123,19 +133,36 @@ const kakao =async(value)=>{
      store.commit('setkakaoauth',mydata.access_token)
      console.log(JSON.parse(result))
      console.log(store.getters.getkakaoauth)
-  
-
     } 
     catch(error){
       console.error(error);
     }
   }
   function kakaoreturn(value){
-      console.log(value)
+    //   console.log(value)
       store.commit('setmykakaocode',value) 
       kakaoreq(value)
     }
-
+    const req = async () => {
+  const url = 'https://nid.naver.com/oauth2.0/authorize'
+  const response_type = 'code'
+  const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
+  const redirect_uri = 'http://localhost:8080/naver'
+  const state = encodeURI('Random_state')
+  let fullurl = url + `?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}&state=${encodeURI(state)}`
+  console.log(myform)
+  let option = 'resizable=yes'
+  window.open(fullurl, myform, option)
+  // myform.value = fulltoken
+  // myform.action = fullurl
+  // window.location = fullurl
+  // await fetch(fullurl).then((data)=>{ data.text()}).then((result)=>{
+  // var newWIndow = window.open("","_blank")
+  //   newWIndow.document.write(result)
+  //   console.log(result)
+  // })
+  // }).catch(error => console.log('error', error))
+}
 </script>
 
 <style scoped>

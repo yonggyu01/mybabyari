@@ -5,12 +5,12 @@
                 <img src="../assets/img/kakaotalk1.png" alt="">
                 <form action="" method="get" name="kakaologin" id="kakaologin">
                     <fieldset>
-                        <legend class="xx">카카오로그인</legend>
+                        <!-- <legend class="xx">카카오로그인</legend> -->
                         <input type="text" placeholder="카카오계정 (이메일)" id="userId">
                         <input type="password" placeholder="비밀번호" id="userPass">
                         <button type="button" id="userloginbtn">로그인</button>
                         <div class="wrapbb"><input type="checkbox" id="checkb">
-                            <p>잠금모드로 자동로그인</p>
+                            <!-- <p>잠금모드로 자동로그인</p> -->
                         </div>
                     </fieldset>
                 </form>
@@ -25,16 +25,16 @@
                     <div class="kakaomain2">
                         <ul>
                             <li v-for="t in newtext" :key="t.id">
-                                <a href="#none" v-html="t"></a>
+                                <h3 style="display:inline; color:white; padding:5px 10px">{{ t }}</h3>
                             </li>
                         </ul>
-                        <input type="text" v-model="mytext" @keydown="req">
                         <br>
-                        <button @click="generateContent"> 문제 생성해보기 </button>
-                        <p>{{ this.kortext }}</p>
-                        <p>{{ this.engtext }}</p>
+                        <!-- <button @click="generateContent"> 문제 생성해보기 </button> -->
+                        <p>{{ kortext }}</p>
+                        <p>{{ engtext }}</p>
                     </div>
-                    <div class="kakaofooter" v-html="inner">
+                    <div class="kakaofooter">
+                        <input type="text" v-model="mytext" @keydown="req" class="textinput">
                     </div>
                 </div>
             </div>
@@ -42,106 +42,68 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            mytext: '',
-            newtext: [` 
-                                <img src="./assets/img/Untitled-2.png" alt="">
-                                <span>
-                                <h3 style="display:inline; background:#f2f2f2; padding:5px 10px">안녕 나는 잼민이야</h3>
-                                <!-- <p>재미니와 놀아보는 단어방</p> -->
-                                </span>
-                            
-                        `,],
-            chatmode: 0,
-            compute: [`
-                                <img src="./assets/img/Untitled-2.png" alt="">
-                                <span>
-                                <h3 style="display:inline; background:white; padding:5px 10px; box-shadow:0 1px 2px black"> 내가 내는 문제를 답해줘 </h3>
-                                </span>
-                           `,
-                        
-                        ],
-            computenum: 0,
-            inner:'',
-            kortext : '',
-            engtext:''
+<script setup>
+import { computed, ref } from 'vue'
 
-
-         
-
-        }
-    },
-    methods: {
-        req(value) {
-            // console.log(this.$emit, value)
-            this.chatmode++
-            if (value.key == 'Enter' && this.chatmode % 3 == 1) {
-
-                this.newtext.push(`
-                                <img src="./assets/img/Untitled-2.png" alt="">
-                                <span>
-                                <h3 style="display:inline; background:yellow; padding:5px 10px">${this.mytext}</h3>
-                                </span>
-                             `)
-                this.mytext = ''
-
-
-            } else if (value.key == 'Enter' && this.chatmode % 3 == 0) {
-                this.newtext.push(this.compute[0])
-                this.computenum++
-            } else if (value.key == 'Enter' && this.chatmode % 3 == 2) {
-                setTimeout(function () {
-                    this.newtext.push(this.computermsg)
-
-                }, 500)
-
-            }
-
-        },
-        async generateContent() {
-            try {
-                const response = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/generate_easy', {
-                    method: 'POST'
-                    ,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({text: "input: {\"level\":2,\"type\":\"sentence\"}"}) ,
-                });
-                const result = await response.text();
-                const newtext =  JSON.parse(result)
-              
-
-             this.kortext =   newtext.kor
-             this.engtext = newtext.eng
-             this.inner = `<p>${newtext.kor} /  ${newtext.eng}</p>  
-         
-             `;
-             
-            } catch (error) {
-                console.error(error);
-            }
-
-        }
-
-
-    },
-    computed: {
-        computermsg(){
-           if(this.engtext.length > 0){
-            console.log(computermsg)
-           return  `<img src="./assets/img/Untitled-2.png" alt=""> <span>  <h3 style="display:inline; background:white; padding:5px 10px; box-shadow:0 1px 2px black">${ this.engtext} </h3>
-                                   </span>`
-           }
-        }
-
-        }
-
+const newtext = ref([`안녕 나는 잼민이야 Enter한번 쳐봐`,])
+const mytext = ref('')
+let chatmode = ref(0)
+const compute = ['내가 내는 문제를 답해줘',
+]
+const computenum = ref(0)
+const inner = ref('')
+const kortext = ref('')
+const engtext = ref('')
+function req(value) {
+    if (value.key == 'Enter' && chatmode.value == 1) {
+        newtext.value.push(mytext.value)
+        mytext.value = ''
+        setTimeout(function () {
+            chatmode.value = 2
+        }, 1000)
+    } else if (value.key == 'Enter' && chatmode.value == 0) {
+        newtext.value.push(compute[0])
+        generateContent().then(newtext.value.push(engtext)).catch(err=>{generateContent()})
+        setTimeout(function () {
+            chatmode.value = 1
+        }, 1000)
+    } else if (value.key == 'Enter' && chatmode.value == 2) {
+        generateContent().then(newtext.value.push(engtext))
+        setTimeout(function () {
+            mytext.value = ''
+            chatmode.value = 0
+        }, 1000)
     }
+}
 
+
+
+async function generateContent() {
+    try {
+        const response = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/generate_easy', {
+            method: 'POST'
+            ,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: "input: {\"level\":2,\"type\":\"sentence\"}" }),
+        });
+        const result = await response.text();
+
+        const newtext = JSON.parse(result)
+        kortext.value = newtext.kor
+        engtext.value = newtext.eng
+        inner.value = `<p>${newtext.kor} /  ${newtext.eng}</p>  
+             `;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const computermsg = computed(() => {
+    return
+})
 
 </script>
 
@@ -155,6 +117,8 @@ export default {
 
 }
 
+.kakaofooter {}
+
 .kakaomain {
     background: #bbb8bb;
     padding: 5px;
@@ -163,15 +127,6 @@ export default {
 }
 
 .kakaobg {
-    background: yellow;
-    width: 350px;
-    height: 600px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
     /* 카카오톡 로그인성공시 아래  */
     display: none;
 }
@@ -241,6 +196,11 @@ export default {
     box-shadow: 0 1px 1px #00000040;
 }
 
+.textinput {
+    width: 100%;
+    font-size: 20px;
+}
+
 .blankm {
     margin-bottom: 50px;
     height: 1px;
@@ -251,7 +211,7 @@ export default {
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: calc(80vh - 18px);
+    height: calc(80vh - 50px);
 }
 
 .kakaomain2 img {
@@ -277,4 +237,5 @@ export default {
 
 .kakaomain2 h3 {
     margin-left: 10px;
-}</style>
+}
+</style>

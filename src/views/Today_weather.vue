@@ -18,6 +18,8 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex';
+const store = useStore()
 const nowweather = ref([])
 const weather1 = ref('')
 const weather2 = ref('')
@@ -30,16 +32,16 @@ const day = date.getDate()
 const imgs = ref('')
 // const city = 'Seoul'
 // const lang = 'kr'
-let nowlat = ref('')  
-let nowlon = ref('')
+let nowlat = store.getters.getlat
+let nowlon = store.getters.getlon
 // const initialLat = 36.5683
 // const initialLon = 126.9778
 // const API_key = 'b6936804ece7929668756f2462b592cc'
 function onGeoOk(position) {
   const lat = position.coords.latitude;
-  nowlat = lat.toFixed(4)
-  const lon = position.coords.longitude;
-  nowlon = lon.toFixed(4)
+   store.commit('setlat',lat.toFixed(4))
+   const lon = position.coords.longitude;
+   store.commit('setlon',lon.toFixed(4))
 }
 function errorGeo(){
   alert('GEO 사용 설정을 해야합니다.')
@@ -50,10 +52,7 @@ setTimeout(()=>{
 },300)
 
 const weather = async () => {
-  if(nowlat.length== 0){
-    navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
-  }else{
-    const API_key = 'b6936804ece7929668756f2462b592cc'
+      const API_key = 'b6936804ece7929668756f2462b592cc'
       //위치부터 찾아야함
     
       var requestOptions = {
@@ -79,7 +78,7 @@ const weather = async () => {
 //   const getdata = await fetch(url)
 //   const result = await getdata
 //   console.log(result)
-}
+
 
 // weather()
 
