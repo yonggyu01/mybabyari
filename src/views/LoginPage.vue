@@ -31,10 +31,18 @@ const router = useRouter()
 const gonext = () => {
   if (userid.value == 0) {
     alert('아이디를 입력하세요')
-  } else {
-    store.commit('userloginnow', true)
+  } 
+  // else if(store.getters.getsigndata.id==userid.value){
+  //   store.commit('userloginnow', true)
+  //   if(store.getters.getsigndata.id==userid.value){
+  //     router.replace('/loginsuc')
+  //     store.commit('signup', userid)
+  //   }
+  //   console.log(store.userloginnow)}
+    else{
+    
     store.commit('signup', userid)
-    console.log(store.userloginnow)
+    store.commit('userloginnow', true)
     router.replace('/loginsuc')
   }
 }

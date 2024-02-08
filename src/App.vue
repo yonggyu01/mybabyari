@@ -1,4 +1,4 @@
-<template>
+<template >
   <Navimunu  v-on:pass="newpass" v-show="loginnow"> </Navimunu>
   <sidebar :class="{'sideon' : !this.$store.getters.getsidebtnstate}"></sidebar>
   <router-view class="mainvue" />
@@ -44,6 +44,7 @@
 }
 </script>
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

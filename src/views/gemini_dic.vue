@@ -170,7 +170,7 @@ const computermsg = computed(() => {
 /* 카카오톡 로그인 성공화면 */
 .loginsuccess {
     /* display: none; */
-    background: white;
+    background: rgb(255, 255, 255);
     width: 100%;
     position: relative;
     height: 100%;
@@ -207,7 +207,7 @@ const computermsg = computed(() => {
 }
 
 .kakaomain2 {
-    background: #f2f2f2;
+    background: #141414;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;

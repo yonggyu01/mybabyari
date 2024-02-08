@@ -16,28 +16,30 @@
             
             <th><label for="user_name">* 이름</label> <!--for안에는 id값 넣어주면됨 -->
             </th>
-            <td><input type="text" id ="user_name" placeholder="이름" v-model="username"></td>
+            <td><input type="text" id ="user_name" placeholder="이름" v-model="username" ref="myname"></td>
         </tr>
         <tr>
             <th><label for="user_id">* 아이디</label> </th>
-            <td><input type="text" id ="user_id" placeholder="아이디" name="user_id" maxlength="12" minlength="4">
+            <td><input type="text" id ="user_id" placeholder="아이디" name="user_id" ref="myid" maxlength="12" minlength="4" v-model="yourid">
                 
                <br><span style="font-size:0.7em">4~12글자 입력 가능</span>
                 <span class="idresultbox" style="margin-left: 10px;"></span> </td>
         </tr>
         <tr>
             <th><label for="user_pass">비밀번호</label> </th>
-            <td><input type="password" id ="user_pass" placeholder="비밀번호" name="user_pass"></td>
+            <td><input type="password" id ="user_pass" placeholder="비밀번호" name="user_pass" ref="passw" v-model="yourpass"></td>
         </tr>
         <tr>
             <th><label for="user_passcheck">비밀번호 확인</label> </th>
-            <td><input type="password" id ="user_passcheck" placeholder="비밀번호 확인"></td>
+            <td><input type="password" id ="user_passcheck" placeholder="비밀번호 확인" ref="passcheck" v-model="passcheckme"></td>
         </tr>
      
       </tbody>
     </table>
-    <div class="wrapbox">  <button type="submit" id="joinbtn"  @click.prevent="signupbtn"> 회원가입하기 </button>
-
+    <div class="wrapbox">  
+      <button id="joinbtn"  @click.prevent="signupbtn" v-show="hiding"> 회원가입하기 </button>
+      <button id="joinbtn1"  type="submit" v-show="!hiding" @click.prevent="signmypage"> 회원가입하기 </button>
+      <button id="joinbtn2"  @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
     </div>
     <div class="buttonwraping">
         <button type="button" id="naversign" @click="req">네이버</button>
@@ -57,14 +59,73 @@ import { useRoute,useRouter } from 'vue-router';
 const store = useStore()
 let redirect_uri = `${location.href}`
 const myform = ref(null)
+const myid=ref(null)
+const passw =ref(null)
+const myname = ref(null)
+const passcheck = ref(null)
 const myaccess = ref('')
 const router = useRouter()
+const yourid = ref('')
 const route = useRoute()
 let kakaowin = ref('')
-      const username = ref('')
+const yourpass =ref('')
+const passcheckme =ref('')
+const username = ref('')
        const hiding =ref(true)
- const signupbtn=()=>{
+ const signupbtn=(e)=>{
     hiding.value=!hiding.value
+
+}
+async function signmypage(e){
+// 태그   myid   myname passcheck  passw  focus() 용도임
+const mydata = [myid,myname,passcheck,passw]
+
+console.log(yourid.value.length)
+if(yourid.value.length<4&&yourid.value.length>12){
+  alert('아이디는 4~12글자 입력해줘')
+  return false;
+}
+if(yourpass.value.length<4||yourpass.value.length>8){
+  alert('비밀번호는 4~8글자 이상 입력해줘')
+  return false;
+}
+if(yourpass.value != passcheckme.value){
+  return alert('비밀번호가 틀렸습니다.')
+}else{
+  
+ const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+ const result = mydate.text()
+ console.log(mydate)
+  // .then(result =>  store.commit('setsigndata', result))
+  // .catch(error => console.log('error', error));
+}
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "newaccount": true,
+  "id": yourid.value,
+  "passworld":yourpass.value,
+  "email": "none",
+  "name": username.value
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+mydata.forEach((item,idx) => {
+  console.log(item)
+if(!item.value.value){
+  item.value.focus()
+  return alert(`${item.value.placeholder}에 내용이 없습니다.`)
+}
+});
+signupbtn()
 }
 onBeforeMount(() => {
     if(route.fullPath.length>1){
@@ -82,7 +143,7 @@ const kakao =async()=>{
         // console.log(location.href)
       
         if(location.href.match(/#none/gm)){
-            location.href=location.href.replace(/#none/gm,'')
+            location.href=location.href.replace(/\/#none/gm,'')
       }
       const response_type = 'code'
       const nonce = 'myfirstid'
@@ -147,7 +208,7 @@ const kakao =async()=>{
   const url = 'https://nid.naver.com/oauth2.0/authorize'
   const response_type = 'code'
   const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
-  const redirect_uri = 'http://localhost:8080/naver'
+//   const redirect_uri = 'http://localhost:8080/naver'
   const state = encodeURI('Random_state')
   let fullurl = url + `?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}&state=${encodeURI(state)}`
   console.log(myform)
@@ -238,7 +299,7 @@ tbody input{
     border-bottom-right-radius: 25px;
     border-bottom-left-radius: 25px;
 }
-#joinbtn,#backbtn,#naversign,#kakaosign{
+#joinbtn,#joinbtn1,#joinbtn2,#backbtn,#naversign,#kakaosign{
     height: 50px;
     width: 40vw;
     margin-right: 5px;
@@ -247,6 +308,12 @@ tbody input{
     border-top-right-radius:20px ;
     border-bottom-right-radius:20px ;
     border-bottom-left-radius: 20px;
+}
+#naversign{
+  background-color: rgb(92, 174, 10);
+}
+#kakaosign{
+  background-color: yellow;
 }
 #id_check{
     width: 100px;

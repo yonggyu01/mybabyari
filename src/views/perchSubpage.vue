@@ -9,7 +9,7 @@
         <span class="Price"> 가격 {{getbaby[number].price}}</span>
         <fieldset id="quantity-list" class="QtField">
           <label for="quantitySelect">Quantity:</label>
-          <select size="1" id="quantitySelect" name="amount">
+          <select size="1" id="quantitySelect" name="amount" v-model="useramout">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -19,7 +19,7 @@
         </fieldset>
 
         <div >
-          <button class="Button" type="submit">장바구니</button>
+          <button class="Button" @click.prevent="pushitem" >장바구니</button>
         </div>
       </form>
     </section>
@@ -32,12 +32,23 @@ import {computed, ref} from 'vue'
 const store = useStore()
 const router = useRouter()
 const route = useRoute()
+const useramout = ref('')
 const getbaby = computed(()=>{
     return store.getters.getbabyproduct
 })
 const number = ref(route.params.item)
 console.log(number.value)
+function pushitem(){
+const userdata = {
+        price : getbaby[number].price,
+        src:getbaby[number].src,
+        Quantity :useramout.value,
+        title : getbaby[number].title
+        }
 
+store.commit('setcart',userdata)
+console.log(store.getters.getcart)
+}
 
 </script>
 

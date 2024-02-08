@@ -112,7 +112,9 @@ export default createStore({
       buttom:false,
       back : false,
       front:false
-    }
+    },
+    signdata : null,
+    shoppingcart:[]
   },
   getters: {
     userlogin(state){
@@ -191,6 +193,13 @@ export default createStore({
       getback(state){
         return state.yourposition.back
       },
+      getsigndata(state){
+        return state.signdata
+      },
+      getcart(state){
+        return state.shoppingcart
+      }
+
   },
   mutations: {
     setttfalse(state,value){
@@ -280,6 +289,12 @@ export default createStore({
     setright(state,value){
       return state.yourposition.right = value
     },
+    setsigndata(state,value){
+      return state.signdata = value
+    },
+    setcart(state,value){
+      return state.shoppingcart.push(value)
+    }
   },
   actions: {
      //dispatch로 실행해야함

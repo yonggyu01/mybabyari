@@ -46,6 +46,7 @@
       </div>
     </div>
 
+
 </template>
 
 <script>
@@ -149,6 +150,7 @@ navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .arrowleft{
   position: absolute;
   left : 30vw

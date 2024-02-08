@@ -13,7 +13,7 @@
             <br>
             <div class="flexbox">
 
-                <img :src="mypost?.body?.match(par)" alt="" class="img1" v-if="mypost?.body?.match(par)">
+                <img :src="mypost?.body?.match(imgsrc)" alt="" class="img1" v-if="mypost?.body?.match(par)">
             </div>
 
         </div>
@@ -31,6 +31,8 @@ const pagenum = route.params.pagenum
 console.log(route.params.pagenum)
 const mypost = store.getters.getbabynote[pagenum]
 const hangul = /[ㄱ-ㅣ가-힣].+/gm
+const imgsrc = /https.+[$jpg]/i
+
 const par = /(http(s)?:\/\/|www.)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}([\/a-z0-9-%#?&=\w])+(\.[a-z0-9]{2,4}(\?[\/a-z0-9-%#?&=\w]+)*)*/gi
 onBeforeMount(() => {
     if (!pagenum) {
