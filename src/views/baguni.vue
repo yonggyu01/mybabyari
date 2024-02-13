@@ -38,6 +38,7 @@ import { useStore } from "vuex";
 const store = useStore()
 const myq = ref([])
 let mycartdata = ref([])
+const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
 // computed(()=>{
 //   return store.getters.getbaguni
 // })

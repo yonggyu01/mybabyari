@@ -33,6 +33,8 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 const useramout = ref(1)
+const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
+
 const getbaby = computed(()=>{
     return store.getters.getbabyproduct
 })
@@ -41,6 +43,7 @@ console.log(number.value)
 console.log(getbaby.value, '베이비')
 async function pushitem(){
 const userdata = {
+        userid : userlogininfo.value,
         price : getbaby.value[number.value].price,
         src:getbaby.value[number.value].src,
         Quantity :useramout.value,

@@ -7,7 +7,7 @@ import FirstViewpage from './FirstViewpage.vue';
     let num = 2
     // 서버에 추가삭제시 post로 create = true면 추가 false면 삭제로 하자
     const fetchdata =ref( [
-        {
+        {  
             id: 'randomnum0',
             text : '출석체크 하기',
             done : false,
@@ -18,7 +18,9 @@ import FirstViewpage from './FirstViewpage.vue';
     }
 ])
     const store = useStore()
+    const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
     const mydate = new Date().getDate()
+        console.log(userlogininfo.value)
     const tt = store.getters.userlogin
     const ttfalse = computed(()=>{return store.getters.getttfalse})
     async function add(action){
@@ -27,6 +29,7 @@ import FirstViewpage from './FirstViewpage.vue';
             return alert('최대갯수입니다')
         }
         const mydata = {
+            userid : userlogininfo.value,
             id:'mydata'+num,
             text : mytext.value,
             done : false,
@@ -106,8 +109,8 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
 
             </div>
             <div class="text_wrap">
-                <h2 v-if="ttfalse"> {{ tt }} 님의 할일목록</h2>
-                <h2 v-else> {{ tt }}  To-Do list</h2>
+                <h2 v-if="ttfalse"> {{ userlogininfo }} 님의 할일목록</h2>
+                <h2 v-else> {{ userlogininfo }}  To-Do list</h2>
             </div>
         </div>
         <div class="my_point_slide">

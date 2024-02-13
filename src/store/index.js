@@ -46,17 +46,17 @@ export default createStore({
       },
       {
           title : '액상분유',
-          price : '3,050,000원',
+          price : '30,000원',
           src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
       },
       {
           title : '앱솔루트',
-          price : '13,050,000원',
+          price : '130,000원',
           src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
       },
       {
           title : '쪽족이',
-          price : '213,050,000원',
+          price : '250,000원',
           src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
       },
       {
@@ -81,17 +81,17 @@ export default createStore({
       },
       {
           title : '액상분유',
-          price : '3,050,000원',
+          price : '350,000원',
           src : 'https://cdn.kmpnews.co.kr/news/photo/202007/39752_34857_1742.jpg'
       },
       {
           title : '앱솔루트',
-          price : '13,050,000원',
+          price : '130,000원',
           src : 'https://review1004.com/wp-content/uploads/2022/09/Monosnap-%E1%84%8F%E1%85%AE%E1%84%91%E1%85%A1%E1%86%BC-_-%E1%84%8B%E1%85%A2%E1%86%B8%E1%84%89%E1%85%A9%E1%86%AF%E1%84%85%E1%85%AE%E1%84%90%E1%85%B3-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8-2FL-%E1%84%87%E1%85%AE%E1%86%AB%E1%84%8B%E1%85%B2-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8-2022-09-26-12-03-21.jpg'
       },
       {
           title : '쪽족이',
-          price : '213,050,000원',
+          price : '250,000원',
           src : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQ4bt8Npf88dA5cssmXUXHcOiX0bVEf25eUfqt-TStnCx3c3kOhXoZwU8UcOPBDDxqYMU&usqp=CAU'
       },
       {

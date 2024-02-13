@@ -34,18 +34,17 @@
                             <h3 class="quiztext">{{kortext}}</h3>
                             <!-- <h3 class="quiztext" v-else>{{ engtext }}</h3> -->
                             <input type="text" v-model="mytext" @keydown="req" class="textinput">
-                            {{ myhint }}
-                            / {{ myresult }}
+                     
                         </div>
 
                     </div>
                     <div class="kakaofooter">
                     
-                            <span class="hint" v-if="ttfalse">힌트보기</span>
-                            <span class="hint" v-else>Hint</span>
+                            <span class="hint" v-if="ttfalse" @click="hinta">힌트보기</span>
+                            <span class="hint" v-else @click="hinta">Hint</span>
                      
-                            <span class="push" v-if="ttfalse">제출하기</span>
-                            <span class="push" v-else>Submit</span>
+                            <span class="push" v-if="ttfalse" @click="myre">정답보기</span>
+                            <span class="push" v-else @click="myre">Submit</span>
                     
                     </div>
                 </div>
@@ -67,7 +66,7 @@ let chatmode = ref(0)
 const compute = ['내가 내는 문제를 답해줘',
 ]
 const computenum = ref(0)
-const inner = ref('')
+// const inner = ref('')
 //한국어 문제는 여기에
 const kortext = ref('')
 //영어 문제는 여기에
@@ -75,30 +74,43 @@ const engtext = ref('')
 //힌트는 여기에 받기
 const myhint = ref('')
 //결과
+function hinta(){
+    alert(myhint.value)
+}
 const myresult =ref('')
+function myre(){
+    alert(myresult.value)
+}
 function req(value) {
-    if (value.key == 'Enter' && chatmode.value == 1) {
-        newtext.value.push(mytext.value)
-        mytext.value = ''
-        setTimeout(function () {
-            chatmode.value = 2
-        }, 1000)
-    } else if (value.key == 'Enter' && chatmode.value == 0) {
-        newtext.value.push(compute[0])
-        generateContent().then(newtext.value.push(engtext)).catch(err=>{generateContent()})
-        setTimeout(function () {
-            chatmode.value = 1
-        }, 1000)
-    } else if (value.key == 'Enter' && chatmode.value == 2) {
-        generateContent().then(newtext.value.push(engtext))
-        setTimeout(function () {
-            mytext.value = ''
-            chatmode.value = 0
-        }, 1000)
+    if (value.key == 'Enter' ) {
+            if(myresult.value.replace(/\s/,'') ==mytext.value){
+                alert('정답입니다')
+            }else{
+                alert('오답입니다.')
+            }
+    
+    // if (value.key == 'Enter' && chatmode.value == 1) {
+    //     newtext.value.push(mytext.value)
+    //     mytext.value = ''
+    //     setTimeout(function () {
+    //         chatmode.value = 2
+    //     }, 1000)
+    // } else if (value.key == 'Enter' && chatmode.value == 0) {
+    //     newtext.value.push(compute[0])
+    //     generateContent().then(newtext.value.push(engtext)).catch(err=>{generateContent()})
+    //     setTimeout(function () {
+    //         chatmode.value = 1
+    //     }, 1000)
+    // } else if (value.key == 'Enter' && chatmode.value == 2) {
+    //     generateContent().then(newtext.value.push(engtext))
+    //     setTimeout(function () {
+    //         mytext.value = ''
+    //         chatmode.value = 0
+    //     }, 1000)
     }
 }
 
-
+generateContent()
 
 async function generateContent() {
     try {
@@ -116,8 +128,6 @@ async function generateContent() {
             kortext.value = newtext.kor
             // engtext.value = newtext.eng
             myhint.value = newtext.hint
-            inner.value = `<p>${newtext.kor} /  ${newtext.eng}</p>  
-            `;
             myresult.value = newtext.result
             
         }
@@ -142,8 +152,6 @@ const computermsg = computed(() => {
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.411);
 
 }
-
-.kakaofooter {}
 
 .kakaomain {
     background: #bbb8bb;

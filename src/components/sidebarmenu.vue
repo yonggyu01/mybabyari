@@ -1,13 +1,13 @@
 <template>
   <div class="sidemenu">
     <div class="sidemenuheader">
-      <h1>아이디 :{{ store1 }}</h1>
+      <h1>아이디 :{{ store1.name }}</h1>
       <h2 @click="back"> <span class="material-symbols-outlined"> chevron_left </span>
       </h2>
     </div>
     <hr>
     <div class="sidelist" @click="back">
-      <h2> <router-link @click="logout" to="/">로그아웃</router-link>  </h2>
+      <h4 class="logout"> <router-link @click="logout" to="/">로그아웃</router-link>  </h4>
     </div>
     <hr>
     <div>
@@ -82,7 +82,7 @@ function rightbtn(){
   transition-timing-function: cubic-bezier(.4, 0, .2, 1);
   position: absolute;
   height: 100%;
-
+  
   width: 256px;
   background-color: white;
   z-index: 1;
@@ -92,7 +92,7 @@ function rightbtn(){
 
 .sidemenuheader h2 {
   font-size: 1em;
-  margin-left: 10px
+  margin-left: 10px;
 }
 
 .sidemenuheader h1 {
@@ -102,16 +102,21 @@ function rightbtn(){
 .sidemenuheader {
   display: flex;
   justify-content: space-between;
-  padding: 20px 5px 0 0;
+  padding: 20px 5px 0 ;
 }
 
 .sidelist h1 {
   margin-top: 20px;
   font-size: 1.2em;
 }
-
+.sidelist{
+  padding-left: 5px;
+}
 .sideon {
   transform: translateX(300px);
+}
+.logout{
+  padding-top:  30px;
 }
 .boxwrap{
     display: flex;
@@ -138,6 +143,7 @@ function rightbtn(){
  
     
 }
+
 .upbox{
     display: flex;
 }

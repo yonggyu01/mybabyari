@@ -65,7 +65,7 @@ const gonext = async () => {
     } else if( result.name){
       console.log(result)
       store.commit('userloginnow', true)
-      store.commit('signup', result.name)
+      store.commit('signup', result)
       router.replace('/loginsuc')
       console.log(store.userloginnow)
       store.commit('setfirstlogin', 1)

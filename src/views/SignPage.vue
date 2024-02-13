@@ -99,12 +99,14 @@
       body: raw
     };
     console.log(yourid.value.length)
-    if(yourid.value.length<4&&yourid.value.length>12){
+    if(yourid.value.length<4||yourid.value.length>12){
       alert('아이디는 4~12글자 입력해줘')
+      console.log(myid.value)
       return false;
     }
     if(yourpass.value.length<4||yourpass.value.length>8){
       alert('비밀번호는 4~8글자 이상 입력해줘')
+      passw.value=focus
       return false;
     }
     if(yourpass.value != passcheckme.value){
@@ -173,10 +175,8 @@
           }
           // 카카오 토큰발급
         const kakaoreq= async (value)=>{
-          
           const url ='https://kauth.kakao.com/oauth/token'
           const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-        
           const client_secret = 'kUetYsMO5y8vv2WL7KJJCunRkiAgvLFf'
           const grant_type = 'authorization_code'
           const nonce = 'myfirstid'
@@ -190,7 +190,6 @@
           form_data.append('code',code)
           form_data.append('nonce',nonce)
           form_data.append('scope',scope)
-
           //application/x-www-form-urlencoded;charset=utf-8 타입으로 자료를 보내려면 
           // POST 방식 Data encoding 을 해야하며  해당 encoding을 해주는 기능임  new URLSearchParams()
           let url_form_data = new URLSearchParams(form_data)
