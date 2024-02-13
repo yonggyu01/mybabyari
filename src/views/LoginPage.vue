@@ -24,11 +24,14 @@ import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 const myform = ref(null)
 const route = useRoute()
-Kakao.init('e95013522170bcd46c5917164368de34');
+
 let mypage = ref('')
 const userid = ref('')
 const userpass = ref('')
 const store = useStore()
+if(store.getters.getfirstlogin==0){
+  Kakao.init('e95013522170bcd46c5917164368de34');
+}
 const mynaveraccess = ref('')
 const myaccess = ref('')
 const router = useRouter()
@@ -58,13 +61,14 @@ const gonext = async () => {
     const result = await my.json()
     if (result.result) {
       console.log(result.result)
-      userid.value = result.result
+     alert(result.result)
     } else if( result.name){
       console.log(result)
       store.commit('userloginnow', true)
       store.commit('signup', result.name)
       router.replace('/loginsuc')
       console.log(store.userloginnow)
+      store.commit('setfirstlogin', 1)
       // if(store.getters.getsigndata.id==userid.value){
       // }
     }
@@ -80,57 +84,15 @@ window.call = function (value) {
   console.log(value)
   store.commit('setmycode', value)
 }
-window.childrenplay = async () => {
-  //   if(store.getters.getmycode.length >0){
-  const authorization_code = store.getters.getmycode
-  const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
-  const grant_type = 'authorization_code'
-  const mystate = encodeURI('Random_state')
-  const tokenurl = 'https://nid.naver.com/oauth2.0/token'
-  const fulltoken = tokenurl + `?grant_type=${grant_type}&client_id=${client_id}&client_secret=${store.getters.getclient_secret}&code=${authorization_code}&state=${mystate}`
-  // myform.value.method = 'POST'
-  // myform.value.action=fulltoken 
-  // myform.value.client_id = client_id
-  // myform.value.grant_type=grant_type
-  // myform.value.state=mystate
-  // myform.value.client_secret = store.getters.getclient_secret
-  // myform.value.code=authorization_code
-  // myform.value.target = 'myform';
-  // myform.value.submit()
-  let mymy = window.open(fulltoken, myform, "popup=true");
-  // }
-  //  try{
-  // const response = await fetch(fulltoken)
-  // const result = await response.text()
-  // console.log(result)
-  //  } catch{
-  //  }
-  setTimeout(() => {
-    mymy.close()
-  }, 1000)
-}
+
 async function loginnaver() {
   const access_token = store.getters.getkakaoauth
-  if (!access_token) { alert('네이버 회원가입부터 진행하세요') } else {
-    Kakao.isInitialized();
-    Kakao.Auth.setAccessToken(access_token);
-    Kakao.API.request({
-      url: '/v2/user/me',
-      data: {
-        property_keys: ['kakao_account.email', 'kakao_account.gender', 'kakao_account.profile_nickname'],
-      }
-      // cors 막아놔서 sdk로 진행 ㅠ
-    })
-      .then(function (response) {
-        console.log(response)
-        store.commit('signup', response.id)
-        store.commit('userloginnow', true)
-        router.replace('/loginsuc')
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+  if (!access_token) { alert('네이버 회원가입부터 진행하세요') }else{
+    store.commit('setfirstlogin', 1)
+
+  } 
+    
+   
 }
 const logoutkakao = async () => {
   const url = 'https://kapi.kakao.com/v1/user/logout'
@@ -165,7 +127,7 @@ const loginkakao = async () => {
     Kakao.API.request({
       url: '/v2/user/me',
       data: {
-        property_keys: ['kakao_account.name', 'kakao_account.gender', 'profile_nickname', 'kakao_account.profile_nickname'],
+        property_keys: ['kakao_account.name', 'kakao_account.email', 'profile_nickname', 'kakao_account.profile_nickname','email'],
       }
       // cors 막아놔서 sdk로 진행 ㅠ
     })

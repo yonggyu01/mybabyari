@@ -21,7 +21,7 @@
 import { onMounted,ref } from "vue"
 const playlist = ref([])
 const selectlist=ref('육아정보')
-const number = 15
+const number = ref(15)
 const videos =ref([])
 function slidebox(){
 

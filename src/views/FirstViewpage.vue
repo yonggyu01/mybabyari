@@ -264,6 +264,7 @@ export default {
  width: 100vw;
  /* background-color: #3c3c3c; */
  position: relative;
+ overflow: hidden;
 }
 table,tr,td,th{
     border-spacing: 0;

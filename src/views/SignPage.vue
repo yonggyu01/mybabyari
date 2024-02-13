@@ -120,8 +120,7 @@
     }
 
 
-
-    mydata.forEach((item,idx) => {
+  mydata.forEach((item,idx) => {
       console.log(item)
     if(!item.value.value){
       item.value.focus()
@@ -133,8 +132,21 @@
     onBeforeMount(() => {
     })
 
-    /// z코드수정중임 여기서 수정해야함  -> 카카오 로그인페이지를 루트페이지에서 해결해야함  
-    const kakao =async()=>{
+   
+      onMounted(()=>{
+      if(route.query.state&&route.query.state=='kakaoreturn'){
+        opener.kakaoreturn(route.query.code)
+    window.close()
+    }else if(route.query.state=='naverreturn'){
+      opener.childrenplay(route.query.code)
+      window.close()
+    }else if(route.query.state=='navertoken'){
+      opener.navertoken(route.query.code)
+      window.close()
+    }
+      })
+      // 카카오 인증
+      const kakao =async()=>{
           const url ='https://kauth.kakao.com/oauth/authorize'
           const client_id ='e70be9702841c3bccff0ed4af83a83a9'
             // console.log(location.href)
@@ -159,23 +171,16 @@
             }
             store.commit('setfirstlogin', 1)
           }
-
-      onMounted(()=>{
-      if(route.query.state&&route.query.state=='kakaoreturn'){
-        opener.kakaoreturn(route.query.code)
-    window.close()
-    }
-      })
-      
+          // 카카오 토큰발급
         const kakaoreq= async (value)=>{
-
+          
           const url ='https://kauth.kakao.com/oauth/token'
           const client_id ='e70be9702841c3bccff0ed4af83a83a9'
         
           const client_secret = 'kUetYsMO5y8vv2WL7KJJCunRkiAgvLFf'
           const grant_type = 'authorization_code'
           const nonce = 'myfirstid'
-          const scope = 'profile_nickname'
+          const scope = 'profile_nickname, account_email'
           const code =value  
           let form_data = new FormData()
           form_data.append('client_id',client_id)
@@ -205,17 +210,19 @@
           console.error(error);
         }
       }
+      // 카카오 코드발급받은것 저장
       window.kakaoreturn = (value)=>{
          console.log(value)
           store.commit('setmykakaocode',value) 
           kakaoreq(value)
         }
+        // 네이버 코드요청
         const req = async () => {
       const url = 'https://nid.naver.com/oauth2.0/authorize'
       const response_type = 'code'
       const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
     //   const redirect_uri = 'http://localhost:8080/naver'
-      const state = encodeURI('Random_state')
+      const state = encodeURI('naverreturn')
       let fullurl = url + `?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}&state=${encodeURI(state)}`
       console.log(myform)
       let option = 'resizable=yes'
@@ -230,6 +237,52 @@
       // })
       // }).catch(error => console.log('error', error))
     }
+
+    //네이버 코드 받아 토큰 요청
+    window.childrenplay = async (value) => {
+      //네이버는 인증토큰 받을때도  cors를 막아놔서 브라우저에 직접 입력해서 받아와야함 ㅠ
+  //   if(store.getters.getmycode.length >0){
+    console.log(value , '네이버 코드')
+    store.commit('setmynavercode', value)
+    navertoken(value)
+  // const authorization_code = value
+
+  // const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
+  // const grant_type = 'authorization_code'
+  // const mystate = encodeURI('navertoken')
+  // const tokenurl = 'https://nid.naver.com/oauth2.0/token'
+  // const fulltoken = tokenurl + `?grant_type=${grant_type}&client_id=${client_id}&client_secret=${store.getters.getclient_secret}&code=${authorization_code}&state=${mystate}`
+  // window.open(fulltoken, myform, "popup=true");
+  // myform.value.method = 'POST'
+  // myform.value.action=fulltoken 
+  // myform.value.client_id = client_id
+  // myform.value.grant_type=grant_type
+  // myform.value.state=mystate
+  // myform.value.client_secret = store.getters.getclient_secret
+  // myform.value.code=authorization_code
+  // myform.value.target = 'myform';
+  // myform.value.submit()
+  // }
+  //  try{
+  // const response = await fetch(fulltoken)
+  // const result = await response.text()
+  // console.log(result)
+  //  } catch{
+  //  }
+ 
+}
+function navertoken(value){
+  // 노드서버에서 로그인시키기
+  const authorization_code = value
+  const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
+  const grant_type = 'authorization_code'
+  const mystate = encodeURI('navertoken')
+  const tokenurl = 'https://nid.naver.com/oauth2.0/token'
+  const fulltoken = tokenurl + `?grant_type=${grant_type}&client_id=${client_id}&client_secret=${store.getters.getclient_secret}&code=${authorization_code}&state=${mystate}`
+  window.open(fulltoken, '', "popup=true");
+}
+    
+
     </script>
 
     <style scoped>

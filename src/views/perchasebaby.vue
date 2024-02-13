@@ -47,7 +47,7 @@ const getbaby = computed(()=>{
 }
 
 .maindiv {
-    --adjust-size: 0px; 
+  
   position: relative;
   display: flex;
   justify-content: center;
@@ -61,13 +61,12 @@ const getbaby = computed(()=>{
 
 #gallery {
   position: relative;
-  left: calc(-1 * var(--adjust-size));
+  left: calc(-1 * 0px);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
   max-width: calc(100vw - 40px);
   padding: 20px;
-  -webkit-perspective: 0;
   perspective: 0;
   box-sizing: border-box;
 }
@@ -76,7 +75,7 @@ const getbaby = computed(()=>{
   box-sizing: border-box;
   position: relative;
   display: inline-block;
-  margin: var(--adjust-size);
+  margin: 0px;
   padding: 0.5rem;
   border-radius: 5px;
   box-shadow: 0 7px 8px rgba(0, 0, 0, 0.4);

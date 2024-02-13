@@ -27,7 +27,7 @@
         <router-link to='/gemini'>
         <span class="material-symbols-outlined">
   dictionary
-  </span><h2 v-if="ttfalse">제미니 단어장</h2><h2 v-else>Dictionary</h2>
+  </span><h2 v-if="ttfalse">오늘의 퀴즈</h2><h2 v-else>Today Quiz </h2>
         </router-link>
       </div>
       <div  :class="{'mybox':true , 'cube-top' : !dice}"> 

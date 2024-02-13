@@ -18,6 +18,7 @@ export default createStore({
     nowloading : false,
     secret : '9AhFkSWq3P',
     mykakaocode:'',
+    mynavercode:'',
     dicemenu:true,
     babynote:null,
     kakaoauth:'',
@@ -98,7 +99,6 @@ export default createStore({
           price : '50,000원',
           src : 'https://m.ppoya.co.kr/web/product/big/202308/659cdc5ab4570dbde53da6e4cb84ea1c.jpg'
       },
-      
   ],
     firstlogin:0,
     weather : {
@@ -207,6 +207,9 @@ export default createStore({
       },
       getbaguni(state){
         return state.baguni
+      },
+      getmynavercode(state){
+        return state.mynavercode
       }
 
   },
@@ -313,6 +316,9 @@ export default createStore({
     delbaguni(state,value){
 
       return state.baguni = state.baguni.filter((item,idx)=>{return idx != value})
+    },
+    setmynavercode(state,value){
+      return state.mynavercode = value
     }
   },
   actions: {

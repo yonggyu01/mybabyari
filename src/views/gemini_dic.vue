@@ -23,18 +23,26 @@
                     </div>
                     <div class="blankm"></div>
                     <div class="kakaomain2">
-                        <ul>
-                            <li v-for="t in newtext" :key="t.id">
-                                <h3 style="display:inline; color:white; padding:5px 10px">{{ t }}</h3>
-                            </li>
-                        </ul>
-                        <br>
-                        <!-- <button @click="generateContent"> 문제 생성해보기 </button> -->
-                        <p>{{ kortext }}</p>
-                        <p>{{ engtext }}</p>
+                        <div class="frontimg">
+                            <h2 v-if="ttfalse">오늘의 퀴즈</h2>
+                            <h2 v-else> Today Quiz</h2>
+                            <img src="../assets/img/myman.png" alt="">
+                        </div>
+                        <div class="quiz">
+                            <h5 v-if="ttfalse">정답을 맞춰보세요</h5><h5 v-else>Guess the correct answer</h5>
+                            <span>Q :</span><h3 class="quiztext">{{  }}</h3>
+                            <input type="text" v-model="mytext" @keydown="req" class="textinput">
+                        </div>
+
                     </div>
                     <div class="kakaofooter">
-                        <input type="text" v-model="mytext" @keydown="req" class="textinput">
+                    
+                            <span class="hint" v-if="ttfalse">힌트보기</span>
+                            <span class="hint" v-else>Hint</span>
+                     
+                            <span class="push" v-if="ttfalse">제출하기</span>
+                            <span class="push" v-else>Submit</span>
+                    
                     </div>
                 </div>
             </div>
@@ -44,7 +52,11 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-
+import { useStore } from 'vuex'
+const store = useStore()
+const ttfalse = computed(()=>{
+    return store.getters.getttfalse
+})
 const newtext = ref([`안녕 나는 잼민이야 Enter한번 쳐봐`,])
 const mytext = ref('')
 let chatmode = ref(0)
@@ -52,8 +64,13 @@ const compute = ['내가 내는 문제를 답해줘',
 ]
 const computenum = ref(0)
 const inner = ref('')
+//한국어 문제는 여기에
 const kortext = ref('')
+//영어 문제는 여기에
 const engtext = ref('')
+//힌트는 여기에 받기
+const myhint = ref('')
+
 function req(value) {
     if (value.key == 'Enter' && chatmode.value == 1) {
         newtext.value.push(mytext.value)
@@ -86,7 +103,7 @@ async function generateContent() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text: "input: {\"level\":2,\"type\":\"sentence\"}" }),
+            body: JSON.stringify({ text: "input: {\"Quiz\": 3,\"type\":\"sentence\",\"Hint\": \"sentence\"}" }),
         });
         if(response.ok){
             const result = await response.text();
@@ -199,7 +216,10 @@ const computermsg = computed(() => {
 }
 
 .textinput {
-    width: 100%;
+    /* display: flex;
+    justify-content: center;
+    margin: 0 auto; */
+        width: 80%;
     font-size: 20px;
 }
 
@@ -209,35 +229,67 @@ const computermsg = computed(() => {
 }
 
 .kakaomain2 {
-    background: #141414;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    overflow-y: scroll;
+   align-items: center;
     overflow-x: hidden;
-    height: calc(80vh - 50px);
+    height: calc(80vh - 60px);
 }
 
 .kakaomain2 img {
-    width: 40px;
+    width: 30vw;
+    max-width: 150px;
     object-fit: contain;
     margin-right: 5px;
 }
 
-.kakaomain2 a {
+
+
+
+.frontimg{
     display: flex;
-    flex-direction: row;
+    background-color:rgba(255, 255, 0, 0.063);
+    width: 100%;
+    height: 25vh;
+    margin: 0 auto;
+    justify-content: center;
     align-items: center;
 }
-
-.kakaomain2 ul {
+.frontimg h2{
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-left: 10px;
-    padding-top: 10px;
-    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 }
-
 .kakaomain2 h3 {
     margin-left: 10px;
+}
+.kakaofooter{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+.kakaofooter span{
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    box-shadow: 1px 1px 3px black;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quiztext{
+    margin-bottom: 15px;
+}
+.hint{
+    background-color: rgba(180, 180, 180, 0.705);
+}
+.push{
+    background-color: #e7af47;
 }
 </style>

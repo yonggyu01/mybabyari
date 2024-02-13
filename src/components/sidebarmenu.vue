@@ -7,7 +7,7 @@
     </div>
     <hr>
     <div class="sidelist" @click="back">
-      <h1>난이도 : {{ getlevel }} </h1>
+      <h2> <router-link @click="logout" to="/">로그아웃</router-link>  </h2>
     </div>
     <hr>
     <div>
@@ -39,7 +39,10 @@ const back = () => {
   store.commit('sidebtnput', true)
   store.commit('setdicemenu', true)
 }
-
+function logout(){
+  store.commit('userloginnow', false)
+      store.commit('signup', '')
+}
 function upbtn(){
   store.commit('setfront',!store.getters.getfront)
   setTimeout(()=>{
