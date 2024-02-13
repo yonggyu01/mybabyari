@@ -1,7 +1,7 @@
 <template>
   <div class="sidemenu">
     <div class="sidemenuheader">
-      <h1>아이디 :{{ store1.name }}</h1>
+      <h1>아이디 :{{ userlogininfo }}</h1>
       <h2 @click="back"> <span class="material-symbols-outlined"> chevron_left </span>
       </h2>
     </div>
@@ -32,6 +32,7 @@ const store = useStore()
 const store1 = computed(() => {
   return store.getters.userlogin
 })
+const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
 const getlevel = computed(() => {
   return store.getters.getlevels
 })
