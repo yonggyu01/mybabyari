@@ -2,8 +2,10 @@
 <script setup>
     import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import FirstViewpage from './FirstViewpage.vue';
     const mytext = ref('')
     let num = 2
+    // 서버에 추가삭제시 post로 create = true면 추가 false면 삭제로 하자
     const fetchdata =ref( [
         {
             id: 'randomnum0',
@@ -19,25 +21,81 @@ import { useStore } from 'vuex';
     const mydate = new Date().getDate()
     const tt = store.getters.userlogin
     const ttfalse = computed(()=>{return store.getters.getttfalse})
-    function add(action){
+    async function add(action){
         num++
-       
         if(fetchdata.value.length==7){
             return alert('최대갯수입니다')
         }
         const mydata = {
             id:'mydata'+num,
             text : mytext.value,
-            done : false
+            done : false,
+            mode : 'add'
+
         }
-        fetchdata.value.unshift(mydata)
-        mytext.value=''
+        // fetchdata.value.unshift(mydata)
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+    // const fetcha = await fetch('http://localhost:3000/todo',{
+        method : 'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify(mydata)
+    })
+    const result = await fetcha.json()
+    fetchdata.value = result 
+
+    mytext.value=''
+
     }
-    function deletec(value,idx){
-        fetchdata.value= fetchdata.value.filter((item)=>{ return item.id+idx != value+idx })
+    //시작시 보여줄 화면
+    async function firstpage(){
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+        // const fetcha = await fetch('http://localhost:3000/todo',{
+        method : 'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:''
+     })
+     const result = await fetcha.json()
+     fetchdata.value = result 
+    }
+    firstpage()
+
+
+
+    async function deletec(id){
         
+        // fetchdata.value= fetchdata.value.filter((item)=>{ return item.id+idx != value+idx })
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+            // const fetcha = await fetch('http://localhost:3000/todo',{
+        method : 'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify({
+            id : id,
+            mode : 'del'
+        })
+     })
+     const result = await fetcha.json()
+     fetchdata.value = result 
     }
-    function comlist(value){
+    async function comlist(id){
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+        // const fetcha = await fetch('http://localhost:3000/todo',{
+        method : 'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body:JSON.stringify({
+            id : id,
+            mode : 'update',
+        })
+     })
+     const result = await fetcha.json()
+     fetchdata.value = result 
         
     }
 </script>
@@ -61,8 +119,9 @@ import { useStore } from 'vuex';
         <div class="my_point_status">
             <ul>
                 <li v-for="(x,idx) of fetchdata" :key="x.id +idx">
-                    <p :class="{'eclipse' : true, 'donetext' : x.done}"> {{x.text}}  </p> <span class="flex"><button v-if="ttfalse" class="comp" @click="comlist(idx)">완료</button><button v-else class="comp">done</button> 
-                        <button v-if="ttfalse" class="del" @click="deletec(x.id,idx)">삭제</button><button v-else class="del" @click="deletec(x.id,idx)">del</button></span>
+                    <p :class="{'eclipse' : true, 'donetext' : x.done}"> {{x.text}}  </p>
+                     <span class="flex"><button v-if="ttfalse" class="comp" @click="comlist(x.id)">완료</button><button v-else class="comp" @click="comlist(x.id)">done</button> 
+                        <button v-if="ttfalse" class="del" @click="deletec(x.id)">삭제</button><button v-else class="del" @click="deletec(x.id,idx)">del</button></span>
                 </li>
                
             </ul>
@@ -183,5 +242,7 @@ border: none;
 }
 .donetext{
     text-decoration: line-through;
+    color : red;
 }
+
 </style>

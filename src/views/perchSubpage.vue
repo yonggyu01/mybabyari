@@ -39,16 +39,28 @@ const getbaby = computed(()=>{
 const number = ref(route.params.item)
 console.log(number.value)
 console.log(getbaby.value, '베이비')
-function pushitem(){
+async function pushitem(){
 const userdata = {
         price : getbaby.value[number.value].price,
         src:getbaby.value[number.value].src,
         Quantity :useramout.value,
-        title : getbaby.value[number.value].title
+        title : getbaby.value[number.value].title,
+        mode : 'add',
+        id : new Date() + Math.random().toFixed(2)*100
         }
 
-store.commit('setbaguni',userdata)
-console.log(store.getters.getcart)
+const headers = new Headers()
+headers.append('Content-Type','application/json')
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+// const fetcha = await fetch('http://localhost:3000/cart',{
+  method : 'POST',
+  headers : headers,
+  body : JSON.stringify(userdata)
+})
+const resultd = await fetcha.json()
+console.log(resultd)
+store.commit('setbaguni',resultd)
+// console.log(store.getters.getcart)
 router.go(-1)
 }
 

@@ -30,8 +30,12 @@
                         </div>
                         <div class="quiz">
                             <h5 v-if="ttfalse">정답을 맞춰보세요</h5><h5 v-else>Guess the correct answer</h5>
-                            <span>Q :</span><h3 class="quiztext">{{  }}</h3>
+                            <span>Q :</span>
+                            <h3 class="quiztext">{{kortext}}</h3>
+                            <!-- <h3 class="quiztext" v-else>{{ engtext }}</h3> -->
                             <input type="text" v-model="mytext" @keydown="req" class="textinput">
+                            {{ myhint }}
+                            / {{ myresult }}
                         </div>
 
                     </div>
@@ -70,7 +74,8 @@ const kortext = ref('')
 const engtext = ref('')
 //힌트는 여기에 받기
 const myhint = ref('')
-
+//결과
+const myresult =ref('')
 function req(value) {
     if (value.key == 'Enter' && chatmode.value == 1) {
         newtext.value.push(mytext.value)
@@ -103,15 +108,17 @@ async function generateContent() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text: "input: {\"Quiz\": 3,\"type\":\"sentence\",\"Hint\": \"sentence\"}" }),
+            body: JSON.stringify({ text: "input: {\"quiz\":1,\"type\":\"sentence\"}" }),
         });
         if(response.ok){
             const result = await response.text();
             const newtext = JSON.parse(result)
             kortext.value = newtext.kor
-            engtext.value = newtext.eng
+            // engtext.value = newtext.eng
+            myhint.value = newtext.hint
             inner.value = `<p>${newtext.kor} /  ${newtext.eng}</p>  
             `;
+            myresult.value = newtext.result
             
         }
 

@@ -23,7 +23,7 @@
                   </div>
                   <div class="btnbox">
                     <button v-if="ttfalse" class="delbtn" @click="del(idx)">삭제</button>
-                    <button v-else class="delbtn" @click="del(idx)">del</button>
+                    <button v-else class="delbtn" @click="del(x.id)">del</button>
                   </div>
                 </li>
               </ul>
@@ -37,21 +37,48 @@ import { computed,ref } from "vue";
 import { useStore } from "vuex";
 const store = useStore()
 const myq = ref([])
-const mycartdata = computed(()=>{
-  return store.getters.getbaguni
-})
+let mycartdata = ref([])
+// computed(()=>{
+//   return store.getters.getbaguni
+// })
 const ttfalse = computed(()=>{
   return store.getters.getttfalse
 })
-const price = computed(()=>{
-  return myq.value * 5000
-})
-function del(num){
-  store.commit('delbaguni', num)
-  console.log(store.getters.getbaguni)
+
+async function del(id){
+  const fdata = {
+    mode : 'del',
+    id : id
+  }
+  const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+    method:'POST',
+    headers:{
+      'Content-Type' : 'application/json'
+    },
+    body : JSON.stringify(fdata)
+  })
+  const result =await fetcha.json()
+  mycartdata.value=result
+
+
+
+  // store.commit('delbaguni', num)
+  // console.log(store.getters.getbaguni)
 }
+async function fetchdata (){
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+  // const fetcha = await fetch('http://localhost:3000/cart',{
+    method:'POST',
+    headers:{
+      'Content-Type' : 'application/json'
+    },
+    body : ''
+  })
+  const result =await fetcha.json()
+  mycartdata.value=result
+  console.log(result)}
 
-
+  fetchdata()
 </script>
 
 
