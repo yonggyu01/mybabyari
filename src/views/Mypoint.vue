@@ -6,17 +6,7 @@ import FirstViewpage from './FirstViewpage.vue';
     const mytext = ref('')
     let num = 2
     // 서버에 추가삭제시 post로 create = true면 추가 false면 삭제로 하자
-    const fetchdata =ref( [
-        {  
-            id: 'randomnum0',
-            text : '출석체크 하기',
-            done : false,
-    },{
-        id: 'randomnum1',
-            text : '홈페이지 만들기',
-            done : false,
-    }
-])
+    const fetchdata =ref( [])
     const store = useStore()
     const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
     const mydate = new Date().getDate()
