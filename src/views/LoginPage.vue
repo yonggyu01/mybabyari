@@ -106,6 +106,7 @@ const logoutkakao = async () => {
   const result = await logoutdata
   console.log(result)
 }
+let switchkakao = computed(()=>{return store.getters.getfirstlogin == 0 ? true : false }) 
 const loginkakao = async () => {
   // 이게 로그인기능이었네 앞에껀 회원가입이고  이게 로그인기능임
   //  const loginurl = 'https://kapi.kakao.com/v2/user/me'
@@ -135,7 +136,29 @@ const loginkakao = async () => {
         console.log(response)
         store.commit('signup', response.id)
         store.commit('userloginnow', true)
-        router.replace('/loginsuc')
+       // 카카오로그인시 회원가입 자동으로 진행
+       
+      var myHeaders = new Headers();
+       myHeaders.append("Content-Type", "application/json");
+       
+       var raw = JSON.stringify({
+        "newaccount": switchkakao.value,
+        "id": response.id ,
+        "password":'',
+        "kakao": true,
+        "name": '카카오로그인'+response.id
+        });
+        console.log(switchkakao)
+        var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          mode:'cors',
+          body: raw
+        };
+      const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+  // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
+      store.commit('setfirstlogin', 1) 
+      router.replace('/loginsuc')
       })
       .catch(function (error) {
         console.log(error);

@@ -51,6 +51,8 @@ export default {
 
         }else if(this.stage==1 && this.moving <2600 && this.quiz==true ){
             this.moving+=100
+        }else if(this.moving ==2600){
+            prompt('아직 미완성이다.')
         }
     },
     downbtn(){

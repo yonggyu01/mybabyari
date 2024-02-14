@@ -42,7 +42,7 @@
           <button id="joinbtn2"  @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
         </div>
         <div class="buttonwraping">
-            <button type="button" id="naversign" @click="req">네이버</button>
+            <!-- <button type="button" id="naversign" @click="req">네이버</button> -->
             <button type="button" id="kakaosign" @click="kakao">카카오톡</button>
             <form action="" ref="myform" > 
                   </form>
@@ -171,7 +171,7 @@
                         kakaowin.value.close()
                 }, 300);   
             }
-            store.commit('setfirstlogin', 1)
+            // store.commit('setfirstlogin', 1)
           }
           // 카카오 토큰발급
         const kakaoreq= async (value)=>{
@@ -295,6 +295,9 @@ function navertoken(value){
         padding: 10px;
         justify-content: space-evenly;
 
+    }
+    button{
+      cursor: pointer;
     }
     table,tr,td,th{
         border-spacing: 0;

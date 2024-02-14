@@ -196,9 +196,9 @@ export default {
     width: 4em;
     background-color: rgb(255, 255, 255);
     font-size:2em ; 
-    box-shadow:0px 1px 4px #00000066
-
-}
+    box-shadow:0px 1px 4px #00000066;
+    cursor: pointer;
+}   
 .wrapflexbod button:not(:nth-child(2)){
     border: none;
     background-color: #3c3c3c;
@@ -209,8 +209,8 @@ export default {
     border-top-right-radius:calc(2em/2) ;
     border-bottom-right-radius: calc(2em/2);
     font-size:2em ;
-    box-shadow:0px 1px 4px #00000066
-
+    box-shadow:0px 1px 4px #00000066;
+    cursor: pointer;
 }
 #signlog fieldset{
     border: none;
