@@ -29,12 +29,29 @@
 </template>
 <script>
 
+
+
 export default {
-    name: 'gamepage',
   methods:{
     upbtn(){
-        this.moving+=50
-        console.log(this.gunaa, this.eta)
+        if(this.stage==0 &&  this.moving <1100 ){
+            this.moving+=50
+            console.log(this.gunaa, this.eta)
+        }else if(this.stage==0 && this.moving == 1100){
+            this.stage=1
+            let quiz = prompt('2월 14일은 무슨날입니까?')
+            console.log(quiz)
+            if(quiz == '발렌타인데이'){
+                this.quiz = true
+                this.$store.commit('setuserpoint',50)
+            }else{
+                alert('당신은 솔로이군요? Game Over')
+                this.$router.push('gameselect')
+            }
+
+        }else if(this.stage==1 && this.moving <2600 && this.quiz==true ){
+            this.moving+=100
+        }
     },
     downbtn(){
         this.moving-=50
@@ -55,7 +72,8 @@ export default {
     return{
         leftright : 0,
         moving : 0,
-        
+        stage : 0,
+        quiz : false
 
     }
   },
@@ -63,9 +81,7 @@ export default {
     cubewrapper (){
        return `transform: perspective(700px) rotateX(360deg) rotateY(360deg) translate3d(${this.leftright}px, 0px, ${this.moving}px);transform-origin: 50% 50% ${-this.moving}px`
   },
-  gunaa(){
-    return `transform = rotateY(180deg) translate3d(${this.leftright-60}px, 67px, ${-500+this.moving}px)  matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3)`
-  }
+
 
   }
 }

@@ -117,7 +117,8 @@ export default createStore({
     },
     signdata : null,
     shoppingcart:[],
-    baguni:[]
+    baguni:[],
+    userpoint : 0
   },
   getters: {
     userlogin(state){
@@ -210,6 +211,9 @@ export default createStore({
       },
       getmynavercode(state){
         return state.mynavercode
+      },
+      getuserpoint(state){
+        return state.userpoint
       }
 
   },
@@ -314,11 +318,13 @@ export default createStore({
       return state.baguni.push(value)
     },
     delbaguni(state,value){
-
       return state.baguni = state.baguni.filter((item,idx)=>{return idx != value})
     },
     setmynavercode(state,value){
       return state.mynavercode = value
+    },
+    setuserpoint(state,value){
+      return state.userpoint += value
     }
   },
   actions: {

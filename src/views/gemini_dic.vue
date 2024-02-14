@@ -85,6 +85,7 @@ function req(value) {
     if (value.key == 'Enter' ) {
             if(myresult.value.replace(/\s/,'') ==mytext.value){
                 alert('정답입니다')
+                store.commit('setuserpoint',50)
             }else{
                 alert('오답입니다.')
             }

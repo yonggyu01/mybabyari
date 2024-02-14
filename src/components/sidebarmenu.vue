@@ -7,6 +7,8 @@
     </div>
     <hr>
     <div class="sidelist" @click="back">
+      <p>포인트 : {{ userpoint }}</p>
+      <br>
       <h4 class="logout"> <router-link @click="logout" to="/">로그아웃</router-link>  </h4>
     </div>
     <hr>
@@ -31,6 +33,9 @@ import { useStore } from 'vuex';
 const store = useStore()
 const store1 = computed(() => {
   return store.getters.userlogin
+})
+const userpoint = computed(()=>{
+  return store.getters.getuserpoint
 })
 const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
 const getlevel = computed(() => {
