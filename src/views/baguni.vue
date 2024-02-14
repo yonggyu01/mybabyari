@@ -49,7 +49,8 @@ const ttfalse = computed(()=>{
 async function del(id){
   const fdata = {
     mode : 'del',
-    id : id
+    id : id,
+    userid : userlogininfo.value
   }
   const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
     method:'POST',
@@ -73,7 +74,10 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
     headers:{
       'Content-Type' : 'application/json'
     },
-    body : ''
+    body : JSON.stringify({
+      userid : userlogininfo.value,
+      
+    })
   })
   const result =await fetcha.json()
   mycartdata.value=result

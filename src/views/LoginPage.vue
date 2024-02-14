@@ -45,7 +45,7 @@ const gonext = async () => {
     var raw = JSON.stringify({
       "newaccount": false,
       "id": userid.value,
-      "passworld": userpass.value
+      "password": userpass.value
     });
 
     var requestOptions = {

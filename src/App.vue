@@ -78,4 +78,7 @@ a{
   padding-bottom: 60px;
   box-sizing: border-box;
 }
+h1,h2,h3,h4,h5,a,p,span{
+ font-family: "Noto Sans KR", sans-serif;;
+}
 </style>

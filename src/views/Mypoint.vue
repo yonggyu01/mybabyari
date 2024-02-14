@@ -10,7 +10,7 @@ import FirstViewpage from './FirstViewpage.vue';
     const store = useStore()
     const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
     const mydate = new Date().getDate()
-        console.log(userlogininfo.value)
+        // console.log(userlogininfo.value)
     const tt = store.getters.userlogin
     const ttfalse = computed(()=>{return store.getters.getttfalse})
     async function add(action){
@@ -49,7 +49,9 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         headers:{
             'Content-Type' : 'application/json'
         },
-        body:''
+        body:JSON.stringify({
+            userid : userlogininfo.value
+        })
      })
      const result = await fetcha.json()
      fetchdata.value = result 
@@ -69,7 +71,8 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         },
         body:JSON.stringify({
             id : id,
-            mode : 'del'
+            mode : 'del',
+            userid : userlogininfo.value
         })
      })
      const result = await fetcha.json()
@@ -85,6 +88,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         body:JSON.stringify({
             id : id,
             mode : 'update',
+            userid : userlogininfo.value
         })
      })
      const result = await fetcha.json()

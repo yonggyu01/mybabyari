@@ -87,9 +87,9 @@
     var raw = JSON.stringify({
       "newaccount": true,
       "id": yourid.value,
-      "passworld":yourpass.value,
-      "email": "none",
-      "name": username.value
+      "password":yourpass.value,
+      // "email": "none",
+      "name": username.value,
     });
 
     var requestOptions = {
