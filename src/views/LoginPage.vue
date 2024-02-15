@@ -140,13 +140,12 @@ const loginkakao = async () => {
        
       var myHeaders = new Headers();
        myHeaders.append("Content-Type", "application/json");
-       
        var raw = JSON.stringify({
         "newaccount": switchkakao.value,
         "id": response.id ,
-        "password":'',
+        "password":'카카오로그인',
         "kakao": true,
-        "name": '카카오로그인'+response.id
+        "name": response.id
         });
         console.log(switchkakao)
         var requestOptions = {
@@ -156,7 +155,7 @@ const loginkakao = async () => {
           body: raw
         };
       const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
-  // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
+  // const mydate =  fetch("http://localhost:3000/account", requestOptions)
       store.commit('setfirstlogin', 1) 
       router.replace('/loginsuc')
       })

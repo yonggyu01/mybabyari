@@ -72,7 +72,7 @@ export default {
     const direction1 = reactive({
             front,top,left,right,buttom,back
         })
- 
+
   function onGeoOk(position) {
   const lat = position.coords.latitude;
   nowlat =position.coords.latitude;
