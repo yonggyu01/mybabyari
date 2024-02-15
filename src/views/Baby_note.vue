@@ -102,7 +102,6 @@ border: 1px solid rgb(248, 152, 74);
     border-top-right-radius: 15px;
     box-sizing: border-box;
 }
-
 .textbox:hover{
     box-shadow: 1px 1px 5px red;
     box-sizing: border-box;
