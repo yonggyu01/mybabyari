@@ -4,12 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --port 8080",
-<<<<<<< HEAD
     "build": "vue-cli-service build",
     "start": "webpack-dev-server --inline --content-base . --history-api-fallback"
-=======
-    "build": "vue-cli-service build"
->>>>>>> 9ba673e (로그인버튼 수정함)
   },
   "dependencies": {
     "@vue/cli": "^5.0.8",
@@ -22,13 +18,9 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-<<<<<<< HEAD
     "@vue/cli-service": "~5.0.0",
     "vue-cli-plugin-webpack": "~0.1.0",
     "webpack-cli": "^5.1.4"
-=======
-    "@vue/cli-service": "~5.0.0"
->>>>>>> 9ba673e (로그인버튼 수정함)
   },
   "browserslist": [
     "> 1%",
