@@ -2,15 +2,15 @@
   <div class="login">
     <div class="page" reg="page" v-html="mypage"></div>
     <form action="/" on-submit.prevnt="">
-      <input type="text" id="user_loginID" placeholder="아이디 입력" v-model="userid" @enter.stop="noenter">
-      <input type="password" name="pass" id="user_loginPass" v-model="userpass" placeholder="비밀번호 입력"
+      <input type="text" id="user_loginID" class="text-center" placeholder="아이디 입력" v-model="userid" @enter.stop="noenter">
+      <input type="password" name="pass" id="user_loginPass" v-model="userpass" class="text-center" placeholder="비밀번호 입력"
         @enter.stop="noenter">
-      <input type="button" value="로그인" id="loginbtn" @click="gonext">
+      <input type="button" value="로그인" id="loginbtn" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click="gonext">
     </form>
     <div id="naver_id_login">
       <span @click="logoutkakao"></span>
-      <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)'>네이버로그인</a>
-      <a href="#none" id="myfetch2" @click="loginkakao(myaccess)">카카오로그인</a>
+      <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)' class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">네이버로그인</a>
+      <a href="#none" id="myfetch2" @click="loginkakao(myaccess)" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">카카오로그인</a>
       <form action="" ref="myform" id="myaccount">
       </form>
     </div>
@@ -63,7 +63,7 @@ const gonext = async () => {
      alert(result.result)
     } else if( result.name){
       console.log(result)
-      store.commit('userloginnow', true)
+      store.commit('setuserloginnow', true)
       store.commit('signup', result)
       router.replace('/loginsuc')
       console.log(store.userloginnow)
@@ -255,7 +255,7 @@ const noenter = (e) => {
 
 .login input {
   margin-bottom: 10px;
-  width: 90vw;
+  width: 85vw;
   height: 30px;
   font-size: 18px;
   padding-left: 5px;
@@ -269,7 +269,7 @@ const noenter = (e) => {
 #loginbtn {
   color: white;
   background-color: rgb(67, 67, 67);
-  width: 90vw;
+  width: 85vw;
   font-size: 20px;
   /* border: 1px solid white; */
 
@@ -280,7 +280,7 @@ const noenter = (e) => {
 #naver_id_login {
   display: flex;
   justify-content: space-evenly;
-  width: 90vw;
+  width: 85vw;
 
 }
 
@@ -288,7 +288,7 @@ const noenter = (e) => {
   color: white;
   box-shadow: 1px 1px 3px #00000038;
   background-color: rgb(106, 219, 61);
-  width: 45vw;
+  width: 40vw;
   font-size: 20px;
   text-align: center;
   border-top-left-radius: 25px;
@@ -301,7 +301,7 @@ const noenter = (e) => {
 #myfetch2 {
   color: rgb(11, 11, 11);
   background-color: rgb(219, 205, 61);
-  width: 45vw;
+  width: 40vw;
   box-shadow: 1px 1px 3px #00000038;
 
   font-size: 20px;

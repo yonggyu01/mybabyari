@@ -119,7 +119,10 @@ export default createStore({
     shoppingcart:[],
     baguni:[],
     userpoint : 0,
-    guest: false
+    guest: false,
+    todo:[],
+    todotf:false,
+
   },
   getters: {
     userlogin(state){
@@ -218,6 +221,15 @@ export default createStore({
       },
       getguest(state){
         return state.guest
+      },
+      gettodo(state){
+        return state.todo
+      },
+      getuserloginnow(state){
+        return state.userloginnow
+      },
+      gettodotf(state){
+      return state.todotf
       }
 
   },
@@ -228,7 +240,7 @@ export default createStore({
     signup(state,value){
       return state.userid = value
     },
-    userloginnow(state,value){
+    setuserloginnow(state,value){
       return state.userloginnow = value
     },
     setnowpage(state,pagename){
@@ -332,6 +344,12 @@ export default createStore({
     },
     setguest(state,boolean){
       return state.guest = boolean
+    },
+    settodo(state,text){
+      return state.todo= [...state.todo, text]
+    },
+    settodotf(state,boolean){
+      return state.todotf = boolean
     }
   },
   actions: {

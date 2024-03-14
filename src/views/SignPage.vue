@@ -37,14 +37,18 @@
           </tbody>
         </table>
         <div class="wrapbox">  
-          <button id="joinbtn"  @click.prevent="signupbtn" v-show="hiding"> 회원가입하기 </button>
-          <button id="joinbtn1"  type="submit" v-show="!hiding" @click.prevent="signmypage"> 회원가입하기 </button>
-          <button id="joinbtn2"  @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
+          <button id="joinbtn" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black bg-slate-200 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click.prevent="signupbtn" v-show="hiding"> 회원가입하기 </button>
+     
+    
+
+ 
+          <button id="joinbtn1" class="inline-block rounded border border-current px-8 py-3 bg-slate-200 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-pink" type="submit" v-show="!hiding" @click.prevent="signmypage"> 회원가입하기 </button>
+          <button id="joinbtn2" class="inline-block rounded border border-current px-8 bg-slate-200 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
         </div>
         <div class="buttonwraping">
             <!-- <button type="button" id="naversign" @click="req">네이버</button> -->
-            <button type="button" id="kakaosign" @click="kakao">카카오톡</button>
-            <button type="button"  id="naversign"  v-show="guest" @click="guestgo">게스트로 진행</button>
+            <button type="button" id="kakaosign" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click="kakao">카카오톡</button>
+            <button type="button"  id="naversign" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  v-show="guest" @click="guestgo">게스트로 진행</button>
             <form action="" ref="myform" > 
                   </form>
         </div>
@@ -127,6 +131,7 @@
     // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
     const result = mydate
     console.log(result)
+    alert('가입성공 로그인해주세요')
       // .then(result =>  store.commit('setsigndata', result))
       // .catch(error => console.log('error', error));
     }

@@ -27,8 +27,8 @@
                 <fieldset >
                     <legend class="xx"> 회원가입 및 로그인 </legend>
                     <div class="wrapflexbod" >
-                        <button type="button" @click="gogo('sign')">Sign up</button>
-                        <button type="button" @click="gogo('login')">Login</button>
+                        <button type="button" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click="gogo('sign')">Sign up</button>
+                        <button type="button" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click="gogo('login')">Login</button>
                     </div>
                     <div class="signpage" >
                         <div class="signpageback"><a href="#none" @click="hide">Back</a></div>

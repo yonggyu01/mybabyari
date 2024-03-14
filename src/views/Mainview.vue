@@ -2,42 +2,42 @@
 
 
     <div :class="{'mainsite':true,'cube-wrapper':!dice,'backwhite':dice, 'front' : front, 'buttom' : buttom, 'left' : left, 'right' : right}">
-      <div :class="{'mybox':true , 'cube-front' : !dice}"> 
+      <div :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500':true , 'cube-front' : !dice}"> 
         <router-link to="/weather">
         <span class="material-symbols-outlined">
         event_note
         </span><h2 v-if="ttfalse">오늘의 산책 날씨</h2><h2 v-else>Today_weather</h2>
       </router-link>
       </div>
-      <div :class="{'mybox':true , 'cube-back' : !dice}"> 
+      <div :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500':true , 'cube-back' : !dice}"> 
         <router-link to="/baby">
         <span class="material-symbols-outlined">
         newspaper
         </span><h2 v-if="ttfalse">육아수첩</h2><h2 v-else>Baby_Note</h2>
         </router-link>
       </div>
-      <div  :class="{'mybox':true , 'cube-left' : !dice}"> 
+      <div  :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500':true , 'cube-left' : !dice}"> 
         <router-link to="/wherego">
         <span class="material-symbols-outlined">
         menu_book
       </span><h2 v-if="ttfalse">이번주에 어디가?</h2><h2 v-else>go where?</h2>
         </router-link>
       </div>
-      <div  :class="{'mybox':true , 'cube-right' : !dice}"> 
+      <div  :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500':true , 'cube-right' : !dice}"> 
         <router-link to='/gemini'>
         <span class="material-symbols-outlined">
   dictionary
   </span><h2 v-if="ttfalse">오늘의 퀴즈</h2><h2 v-else>Today Quiz </h2>
         </router-link>
       </div>
-      <div  :class="{'mybox':true , 'cube-top' : !dice}"> 
+      <div  :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500':true , 'cube-top' : !dice}"> 
         <router-link to="/youtube">
         <span class="material-symbols-outlined">
   video_camera_front
   </span><h2 v-if="ttfalse">육아정보 유튜브</h2><h2 v-else>Baby Tube</h2>
         </router-link>
       </div>
-      <div  :class="{'mybox':true , 'cube-bottom' : !dice}"> 
+      <div  :class="{'mybox transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500 ':true , 'cube-bottom' : !dice}"> 
         <router-link to="/perchasebaby">
         <span class="material-symbols-outlined">
           shopping_bag
