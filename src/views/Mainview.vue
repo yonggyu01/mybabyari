@@ -116,7 +116,7 @@ navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
       //   .then(response => response.text())
       //   .then(result => console.log(result))
       //   .catch(error => console.log('error', error));
-     const mydata = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${nowlat}&lon=${nowlon}&lang=kr&appid=${API_key}`, requestOptions)
+     const mydata = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${nowlat}&lon=${nowlon}&lang=kr&appid=${API_key}`, requestOptions).catch(err=> alert('데이터 송신불량'))
      const result = await mydata.text()
      const parsedata = JSON.parse(result)
      console.log(parsedata)

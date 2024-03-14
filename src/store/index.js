@@ -118,7 +118,8 @@ export default createStore({
     signdata : null,
     shoppingcart:[],
     baguni:[],
-    userpoint : 0
+    userpoint : 0,
+    guest: false
   },
   getters: {
     userlogin(state){
@@ -214,6 +215,9 @@ export default createStore({
       },
       getuserpoint(state){
         return state.userpoint
+      },
+      getguest(state){
+        return state.guest
       }
 
   },
@@ -325,6 +329,9 @@ export default createStore({
     },
     setuserpoint(state,value){
       return state.userpoint += value
+    },
+    setguest(state,boolean){
+      return state.guest = boolean
     }
   },
   actions: {

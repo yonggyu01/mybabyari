@@ -4,7 +4,7 @@
         <div class="firstlogoWrap">
             <div class="mymanwrap">
                 <img src="../assets/img/myman.png" alt="" class="myman" @click="hide" :style="znum">   
-                <p v-show="hidep==0"><a href="#none" @click="hide">Click me</a></p> 
+                <p v-show="hidep==0"><a href="#none" @click="hide" class="flex flex-row">Click me</a></p> 
             </div>
        
      

@@ -60,17 +60,15 @@ const store = useStore()
 const ttfalse = computed(()=>{
     return store.getters.getttfalse
 })
-const newtext = ref([`안녕 나는 잼민이야 Enter한번 쳐봐`,])
+
 const mytext = ref('')
-let chatmode = ref(0)
-const compute = ['내가 내는 문제를 답해줘',
-]
-const computenum = ref(0)
+
+
 // const inner = ref('')
 //한국어 문제는 여기에
 const kortext = ref('')
 //영어 문제는 여기에
-const engtext = ref('')
+
 //힌트는 여기에 받기
 const myhint = ref('')
 //결과
@@ -135,6 +133,7 @@ async function generateContent() {
 
     } catch (error) {
         console.error(error);
+        alert('서버가 닫혀있어 기능 사용이 어렵습니다. 관리자에게 연락바랍니다 010-2190-6008')
     }
 }
 

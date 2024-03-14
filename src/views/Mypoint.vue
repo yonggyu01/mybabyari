@@ -9,6 +9,7 @@ import FirstViewpage from './FirstViewpage.vue';
     const fetchdata =ref( [])
     const store = useStore()
     const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
+    console.log(userlogininfo , '투두')
     const mydate = new Date().getDate()
         // console.log(userlogininfo.value)
     const tt = store.getters.userlogin
@@ -52,9 +53,11 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         body:JSON.stringify({
             userid : userlogininfo.value
         })
-     })
-     const result = await fetcha.json()
-     fetchdata.value = result 
+     }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
+     if(fetcha!==undefined){
+         const result = await fetcha.json()
+         fetchdata.value = result 
+     }
     }
     firstpage()
 
@@ -74,9 +77,11 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
             mode : 'del',
             userid : userlogininfo.value
         })
-     })
-     const result = await fetcha.json()
-     fetchdata.value = result 
+     }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
+     if(fetcha!==undefined){
+         const result = await fetcha.json()
+         fetchdata.value = result 
+     }
     }
     async function comlist(id){
 const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
@@ -90,9 +95,12 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
             mode : 'update',
             userid : userlogininfo.value
         })
-     })
-     const result = await fetcha.json()
-     fetchdata.value = result 
+     }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
+     if(fetcha!==undefined){
+         const result = await fetcha.json()
+         fetchdata.value = result 
+
+     }
         
     }
 </script>

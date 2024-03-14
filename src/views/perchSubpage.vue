@@ -43,7 +43,7 @@ console.log(number.value)
 console.log(getbaby.value, '베이비')
 async function pushitem(){
 const userdata = {
-        userid : userlogininfo.value,
+        // userid : userlogininfo.value,
         price : getbaby.value[number.value].price,
         src:getbaby.value[number.value].src,
         Quantity :useramout.value,
@@ -59,14 +59,39 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
   method : 'POST',
   headers : headers,
   body : JSON.stringify(userdata)
-})
-const resultd = await fetcha.json()
+}).catch(err=>console.log(err))
+if(fetcha!==undefined){
+  const resultd = await fetcha.json()
 console.log(resultd)
 store.commit('setbaguni',resultd)
 // console.log(store.getters.getcart)
 router.go(-1)
+}else{
+  alert('서버가 닫혀있어 기능사용이 어렵습니다.')
 }
 
+
+}
+async function fetchdata (){
+const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+  // const fetcha = await fetch('http://localhost:3000/cart',{
+    method:'POST',
+    headers:{
+      'Content-Type' : 'application/json'
+    },
+    body : JSON.stringify({
+      userid : userlogininfo.value,
+      
+    })
+  }).catch(err=>console.log(err))
+  if(fetcha!==undefined){
+    const result =await fetcha.json()
+    console.log(result)
+  }
+  // mycartdata.value=result
+}
+
+  fetchdata()
 </script>
 
 <style scoped>

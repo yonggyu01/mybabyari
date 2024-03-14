@@ -43,7 +43,7 @@ async function getYoutubeDatas(value, num){
   url.search = new URLSearchParams(params).toString();
   const headers = new Headers()
     headers.append("Content-type" , "application/json")
-    const youtubedata = await fetch(url)
+    const youtubedata = await fetch(url).catch(err=> console.log('데이터 회신불가'))
     const result = await youtubedata.json()
     const {items} = result
     playlist.value  = items

@@ -13,7 +13,6 @@
       <a href="#none" id="myfetch2" @click="loginkakao(myaccess)">카카오로그인</a>
       <form action="" ref="myform" id="myaccount">
       </form>
-
     </div>
   </div>
 </template>
@@ -55,7 +54,7 @@ const gonext = async () => {
       body: raw
     };
     // if(store.getters.getsigndata.id==userid.value){
-      const my = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account/', requestOptions)
+      const my = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account/', requestOptions).catch(err=>{alert('서버가 닫혀있습니다 관리자에게 문의하세요')})
       // const my = await fetch('http://localhost:3000/account', requestOptions)
     
     const result = await my.json()
@@ -72,7 +71,6 @@ const gonext = async () => {
       // if(store.getters.getsigndata.id==userid.value){
       // }
     }
-
     //   else{
 
     //   store.commit('signup', userid)
@@ -89,10 +87,7 @@ async function loginnaver() {
   const access_token = store.getters.getkakaoauth
   if (!access_token) { alert('네이버 회원가입부터 진행하세요') }else{
     store.commit('setfirstlogin', 1)
-
   } 
-    
-   
 }
 const logoutkakao = async () => {
   const url = 'https://kapi.kakao.com/v1/user/logout'
@@ -103,7 +98,7 @@ const logoutkakao = async () => {
     method: 'POST',
   }
   const logoutdata = await fetch(url, option)
-  const result = await logoutdata
+  const result = await logoutdata.json()
   console.log(result)
 }
 let switchkakao = computed(()=>{return store.getters.getfirstlogin == 0 ? true : false }) 
@@ -123,7 +118,10 @@ const loginkakao = async () => {
   //  const f_result = await userinfo
   //  console.log(f_result)
   if (!access_token) { alert('카카오 회원가입부터 진행하세요') } else {
-    Kakao.isInitialized();
+    
+    if(!Kakao.isInitialized()){
+      Kakao.isInitialized()
+    };
     Kakao.Auth.setAccessToken(access_token);
     Kakao.API.request({
       url: '/v2/user/me',
@@ -154,7 +152,7 @@ const loginkakao = async () => {
           mode:'cors',
           body: raw
         };
-      const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+      const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions).catch(err => alert('로그인 서버가 닫혀있습니다, 관리자에게 문의하세요 010-2190-6008'))
   // const mydate =  fetch("http://localhost:3000/account", requestOptions)
       store.commit('setfirstlogin', 1) 
       router.replace('/loginsuc')
@@ -241,8 +239,6 @@ mymy.addEventListener('click',fetchnaver)
 
 
 */
-
-
 const noenter = (e) => {
   console.log(e)
   if (e.key == 'Enter') {

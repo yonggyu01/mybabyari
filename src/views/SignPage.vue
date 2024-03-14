@@ -44,6 +44,7 @@
         <div class="buttonwraping">
             <!-- <button type="button" id="naversign" @click="req">네이버</button> -->
             <button type="button" id="kakaosign" @click="kakao">카카오톡</button>
+            <button type="button"  id="naversign"  v-show="guest" @click="guestgo">게스트로 진행</button>
             <form action="" ref="myform" > 
                   </form>
         </div>
@@ -53,12 +54,18 @@
     </template>
 
     <script setup>
-    import {ref,onBeforeMount, onMounted} from 'vue'
+    import {ref,onBeforeMount, onMounted, computed} from 'vue'
     import { useStore } from 'vuex';
     import { useRoute,useRouter } from 'vue-router';
     const store = useStore()
     let redirect_uri = `${location.href}`
-
+    const guest = computed(()=>{
+      return store.getters.getguest
+    }) 
+   console.log(store, '스토어')
+    function setguest(){
+      store.commit('setguest', true )
+    }
     const myform = ref(null)
     const myid=ref(null)
     const passw =ref(null)
@@ -75,9 +82,8 @@
           const hiding =ref(true)
     const signupbtn=(e)=>{
         hiding.value=!hiding.value
-
     }
-
+  
     async function signmypage(e){
     // 태그   myid   myname passcheck  passw  focus() 용도임
     const mydata = [myid,myname,passcheck,passw]
@@ -113,9 +119,13 @@
       return alert('비밀번호가 틀렸습니다.')
     }else{
       
-    const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+    const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions).catch(err=> {
+      setguest()
+      alert('회원가입 서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
+  
+  })
     // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
-    const result = await mydate.json()
+    const result = mydate
     console.log(result)
       // .then(result =>  store.commit('setsigndata', result))
       // .catch(error => console.log('error', error));
@@ -147,6 +157,11 @@
       window.close()
     }
       })
+      function guestgo(){
+        store.commit('setfirstlogin', 1) 
+        store.commit('userloginnow', true)
+      router.replace('/loginsuc')
+      }
       // 카카오 인증
       const kakao =async()=>{
           const url ='https://kauth.kakao.com/oauth/authorize'
@@ -206,7 +221,9 @@
         console.log(store.getters.getkakaoauth)
         } 
         catch(error){
-          console.error(error);
+          setguest()
+      alert('회원가입 서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
+
         }
       }
       // 카카오 코드발급받은것 저장

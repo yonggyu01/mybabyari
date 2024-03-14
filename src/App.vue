@@ -24,7 +24,7 @@
       console.log('동작하나?')
       
       this.usemorebtn = value
-      console.log(this.usemorebtn)
+      console.log(this.usemorebtn,'usemoer버튼임')
     }
 
   },
@@ -44,7 +44,6 @@
 }
 </script>
 <style>
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

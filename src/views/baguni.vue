@@ -50,7 +50,7 @@ async function del(id){
   const fdata = {
     mode : 'del',
     id : id,
-    userid : userlogininfo.value
+    // userid : userlogininfo.value
   }
   const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
     method:'POST',

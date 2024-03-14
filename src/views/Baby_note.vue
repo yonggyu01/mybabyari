@@ -11,7 +11,7 @@ const hangulno = /[^ ㄱ-ㅣ가-힣]/gm
 var client = new dsteem.Client('https://api.steemit.com')
 let textme = ref(null)
 var mapdata = async (mytag='momscafe', num, post='created') => {
-    const mydata = await client.database.getDiscussions(post, { tag: mytag, limit: num })
+    const mydata = await client.database.getDiscussions(post, { tag: mytag, limit: num }).catch(err => {console.log('서버데이터 접속불가')})
     const result = await mydata
     textme.value = result
     console.log(result)
