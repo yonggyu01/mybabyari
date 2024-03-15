@@ -106,7 +106,7 @@ navigator.geolocation.getCurrentPosition(onGeoOk,errorGeo)
 
 
     const weather = async () => {
-      const API_key = 'b6936804ece7929668756f2462b592cc'
+      const API_key = process.env.VUE_APP_Openweather
       //위치부터 찾아야함
       var requestOptions = {
         method: 'GET',

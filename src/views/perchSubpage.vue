@@ -1,15 +1,24 @@
 <template>
      <section class="Product">
-      <a href="#none" class="Visual ">
-          <img :src="getbaby[number].src" :alt="getbaby[number].title">
-      </a>
-      <form action="" class="Form">
-        <h3>제품명 : {{getbaby[number].title}}</h3>
+  
+	<div class="bg-gray-100 text-gray-900 w-screen h-screen">
+		<div class="container grid grid-cols-12 mx-auto">
+			<div class="flex flex-col justify-center col-span-12 align-middle bg-no-repeat bg-cover bg-gray-700 lg:col-span-6 lg:h-auto" style="background-image: url('https://source.unsplash.com/random/640x480'); background-position: center center; background-blend-mode: multiply; background-size: cover;">
+				<div class="flex flex-col items-center  text-center">
+         
+          <img :src="getbaby[number].src" :alt="getbaby[number].title" class="w-full object-cover">
 
-        <span class="Price"> 가격 {{getbaby[number].price}}</span>
+				</div>
+			</div>
+			<div class="flex flex-col col-span-12 p-6 divide-y lg:col-span-6 lg:p-10 divide-gray-300">
+				<div class="pt-6 pb-4 space-y-2">
+          <form action="" class="">
+        <h3 class="text-3xl font-bold py-2 mb-3">제품명 : {{getbaby[number].title}}</h3>
+
+        <span class="Price mb-2 "> 가격 {{getbaby[number].price}}</span>
         <fieldset id="quantity-list" class="QtField">
           <label for="quantitySelect">Quantity:</label>
-          <select size="1" id="quantitySelect" name="amount" v-model="useramout" value="1">
+          <select size="1" id="quantitySelect" name="amount" v-model="useramout" class="w-15 ml-3" value="1">
             <option value="1" selected>1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -19,9 +28,16 @@
         </fieldset>
 
         <div >
-          <button class="Button" @click.prevent="pushitem" >장바구니</button>
+          <button class=" mt-4 px-8 py-3 font-semibold border rounded border-gray-800 text-gray-800" @click.prevent="pushitem" >장바구니</button>
         </div>
       </form>
+				
+				</div>
+		
+			</div>
+		</div>
+	</div>
+
     </section>
 </template>
 
@@ -33,8 +49,10 @@ const store = useStore()
 const router = useRouter()
 const route = useRoute()
 const useramout = ref(1)
+const isguest = computed(()=>{
+      return store.getters.getguest
+    })
 const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
-
 const getbaby = computed(()=>{
     return store.getters.getbabyproduct
 })
@@ -42,7 +60,7 @@ const number = ref(route.params.item)
 console.log(number.value)
 console.log(getbaby.value, '베이비')
 async function pushitem(){
-const userdata = {
+  const userdata = {
         // userid : userlogininfo.value,
         price : getbaby.value[number.value].price,
         src:getbaby.value[number.value].src,
@@ -51,29 +69,32 @@ const userdata = {
         mode : 'add',
         id : new Date() + Math.random().toFixed(2)*100
         }
-
-const headers = new Headers()
-headers.append('Content-Type','application/json')
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
-// const fetcha = await fetch('http://localhost:3000/cart',{
-  method : 'POST',
-  headers : headers,
-  body : JSON.stringify(userdata)
-}).catch(err=>console.log(err))
-if(fetcha!==undefined){
-  const resultd = await fetcha.json()
-console.log(resultd)
-store.commit('setbaguni',resultd)
-// console.log(store.getters.getcart)
-router.go(-1)
-}else{
-  alert('서버가 닫혀있어 기능사용이 어렵습니다.')
-}
-
-
+  if(isguest){
+    store.commit('setbaguni',userdata)
+    router.go(-1)
+  }else{
+      const headers = new Headers()
+      headers.append('Content-Type','application/json')
+      const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+      // const fetcha = await fetch('http://localhost:3000/cart',{
+        method : 'POST',
+        headers : headers,
+        body : JSON.stringify(userdata)
+      }).catch(err=>console.log(err))
+        if(fetcha!==undefined){
+          const resultd = await fetcha.json()
+        console.log(resultd)
+        store.commit('setbaguni',resultd)
+        // console.log(store.getters.getcart)
+        router.go(-1)
+    }else{
+      alert('서버가 닫혀있어 기능사용이 어렵습니다.')
+    }
+  }
 }
 async function fetchdata (){
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+  if(!isguest){
+    const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
   // const fetcha = await fetch('http://localhost:3000/cart',{
     method:'POST',
     headers:{
@@ -89,8 +110,8 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
     console.log(result)
   }
   // mycartdata.value=result
+  }
 }
-
   fetchdata()
 </script>
 

@@ -51,16 +51,32 @@ function newlist(e){
             <button @click="newlist"> 목록변경 </button>
         </div>
         <div class="babybox">
-        <div class="textbox" v-for="(x, idx) in textme" :key="x?.post_id" @click="selecttext(idx)">
-            <img :src="x.body.match(imgsrc)" alt="" class="mainimg" v-if="x.body.match(par)"><span class="nullimg" v-else></span>
-            <div class="textlinewrap">
-                <router-link to="">
-                     <span class="author"> <img :src="`https://steemitimages.com/u/${x?.author}/avatar/small`" alt="" class="userlogo" > : {{ x?.author }}</span>
-                    <h2><span>{{ x?.title }} </span> </h2>
-                    <p>{{  x?.body?.replace(hangulno,'') }}</p>
-                </router-link>
-                </div>
-            </div>
+            <!--  -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            <div class="max-w-lg transition cursor-pointer hover:scale-105 p-4 shadow-md bg-slate-200 rounded text-gray-800" v-for="(x, idx) in textme" :key="x?.post_id" @click="selecttext(idx)">
+		<div class="flex justify-between pb-4 border-bottom">
+			<div class="flex items-center">
+                <span class="author "> <img :src="`https://steemitimages.com/u/${x?.author}/avatar/small`" alt="" class="userlogo" > <span class="ml-2"> 작성자 {{ x?.author }}</span></span>
+			</div>
+			<a >See All</a>
+		</div>
+		<div class="space-y-4">
+			<div class="space-y-2">
+                <img :src="x.body.match(imgsrc)" alt="" class="mainimg block  object-cover object-center w-full rounded-md h-72 bg-gray-500" v-if="x.body.match(par)"><span class=" block object-cover object-center w-full flex items-center justify-center rounded-md h-72 bg-gray-500" v-else> 이미지 없습니다. </span> 
+				<div class="flex items-center text-xs">
+				</div>
+			</div>
+			<div class="space-y-2">
+				<a rel="noopener noreferrer" href="#" class="block">
+					<h3 class="text-xl font-semibold text-cyan-600 truncate">{{ x?.title }}</h3>
+				</a>
+				<p class="leading-snug text-gray-600 line-clamp-3">{{  x?.body?.replace(hangulno,'') }}</p>
+			</div>
+		</div>
+	</div>
+        </section>          
+
+    
     </div>
     </div>
   
@@ -85,9 +101,7 @@ function newlist(e){
     border-radius:50% ;
 }
 .mainimg{
-    min-width: 120px;
-    max-width: 120px;
-    height: 100px;
+
     object-fit: cover;
 }
 .textbox {

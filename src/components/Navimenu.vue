@@ -28,7 +28,6 @@ export default {
   setup(){
     const store = useStore()
    const eng= ()=>{
-    console.log(store.getters.getttfalse)
    store.commit('setttfalse',!store.getters.getttfalse )
   }
 

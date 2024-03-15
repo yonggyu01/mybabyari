@@ -1,20 +1,21 @@
 <template>
-    <div>
-        <div class="wrapbox">
-            <h1>{{ mypost?.title }}</h1>
-            <div class="username">
+    <div class="h-full">
+        <div class="wrapbox h-full">
+            <h1 class="text-3xl font-bold sm:text-4xl text-center">{{ mypost?.title }}</h1>
+            <div class="username flex items-center">
                 <img :src="`https://steemitimages.com/u/${mypost?.author}/avatar/small`" alt="" class="userlogo">
-                <h5>{{ mypost?.author }}</h5>
+                <h5 class="text-gray">작성자 {{ mypost?.author }}</h5>
             </div>
             <br>
-            <span v-for=" (x, idx ) of mypost?.body?.match(hangul)" :key="'my' + idx">
-                <p> {{ x }} </p>
-            </span>
+            <div v-for=" (x, idx ) of mypost?.body?.split('\n')" :key="'my' + idx" class="m-auto">
+                <img v-if="x.match(/!.*\)/gm)" :src="x.match(imgsrc)[0]" class="lg:w-3/4 m-auto object-cover mb-4 ">
+                <p v-else class="text-lg text-center py-2 mb-2"> {{ x.replace(imgsrc, '').replace(/!.*\)/gm,'')  }} </p>
+            </div>
             <br>
-            <div class="flexbox">
+            <!-- <div class="flexbox">
 
                 <img :src="mypost?.body?.match(imgsrc)" alt="" class="img1" v-if="mypost?.body?.match(par)">
-            </div>
+            </div> -->
 
         </div>
     </div>
@@ -67,7 +68,7 @@ onUnmounted(() => {
 }
 .wrapbox{
     width: 80vw;
-    height: 100vh;
+    /* height: 100vh; */
     margin: 0 auto 0px;
     border-left: 1px solid goldenrod;
     border-right: 1px solid goldenrod;

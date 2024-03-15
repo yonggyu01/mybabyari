@@ -48,6 +48,7 @@ const back = () => {
 function logout(){
   store.commit('userloginnow', false)
       store.commit('signup', '')
+        store.commit('setuserloginnow', false)
 }
 function upbtn(){
   store.commit('setfront',!store.getters.getfront)

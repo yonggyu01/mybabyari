@@ -28,7 +28,7 @@
            
           <button
             type="submit"
-            @click="settodo"
+            @click="add"
             class="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
           > 
             Todo 추가하기
@@ -50,6 +50,45 @@ const todoclick=computed(()=>{
     console.log(todoclick)
     return store.getters.gettodotf
 })
+const isguest = computed(()=>{
+      return store.getters.getguest
+    })
+const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
+async function add(action){
+  if(!todotitle.value || !todocontent.value){
+   return alert('내용이 비어있습니다.')
+  }else if(isguest){
+    settodo()
+  }else{
+    
+  const date = new Date()
+
+      const mydata = {
+          userid : userlogininfo.value,
+          id:'todo' + Date.now(),
+          title:todotitle.value,
+          text : todocontent.value,
+          done : false,
+          mode : 'add',
+          create :  (date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') 
+      }
+
+      // fetchdata.value.unshift(mydata)
+
+
+      const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+      // const fetcha = await fetch('http://localhost:3000/todo',{
+      method : 'POST',
+      headers:{
+          'Content-Type' : 'application/json'
+      },
+      body:JSON.stringify(mydata)
+      })
+      const result = await fetcha.json()
+      store.commit('settodo',result) 
+        }
+
+    }
 
 function settodo(){
     const date = new Date()
@@ -58,7 +97,7 @@ function settodo(){
         id : 'todo' + Date.now(),
         title : todotitle.value,
         text : todocontent.value,
-        isDone : false,
+        done : false,
         create : (date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') 
     }
     store.commit('settodo',content)

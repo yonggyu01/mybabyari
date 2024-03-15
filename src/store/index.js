@@ -333,8 +333,11 @@ export default createStore({
     setbaguni(state,value){
       return state.baguni.push(value)
     },
+    fetchbaguni(state,value){
+      return state.baguni = value
+    },
     delbaguni(state,value){
-      return state.baguni = state.baguni.filter((item,idx)=>{return idx != value})
+      return state.baguni = state.baguni.filter((item,idx)=>{return item.id != value})
     },
     setmynavercode(state,value){
       return state.mynavercode = value
@@ -347,6 +350,21 @@ export default createStore({
     },
     settodo(state,text){
       return state.todo= [...state.todo, text]
+    },
+    fetchtodo(state,object){
+      return state.todo = object
+    },
+    deltodo(state,id){
+    return state.todo = state.todo.filter((item)=>{return item.id != id})
+    },
+    uptodo(state,id){
+    return state.todo = state.todo.map((item)=>{
+      if(item.id == id){
+          const date = new Date()
+          return item = {...item, done : !item.done, create :(date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') }
+      }else{
+        return item
+      }})
     },
     settodotf(state,boolean){
       return state.todotf = boolean

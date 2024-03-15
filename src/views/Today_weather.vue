@@ -44,7 +44,6 @@ let nowlat = store.getters.getlat
 let nowlon = store.getters.getlon
 // const initialLat = 36.5683
 // const initialLon = 126.9778
-// const API_key = 'b6936804ece7929668756f2462b592cc'
 // function onGeoOk(position) {
 //   const lat = position.coords.latitude;
 //    store.commit('setlat',lat.toFixed(4))
@@ -60,7 +59,6 @@ let nowlon = store.getters.getlon
 // },300)
 
 // const weather = async () => {
-//       const API_key = 'b6936804ece7929668756f2462b592cc'
 //       //위치부터 찾아야함
     
 //       var requestOptions = {

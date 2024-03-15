@@ -29,7 +29,7 @@ const userid = ref('')
 const userpass = ref('')
 const store = useStore()
 if(store.getters.getfirstlogin==0){
-  Kakao.init('e95013522170bcd46c5917164368de34');
+  Kakao.init(process.env.VUE_APP_Kakao);
 }
 const mynaveraccess = ref('')
 const myaccess = ref('')

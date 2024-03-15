@@ -3,9 +3,9 @@
     import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import Todomodal from '../components/todomodal.vue'
-import FirstViewpage from './FirstViewpage.vue';
     
     const mytext = ref('')
+    const mytitle = ref('')
     let num = 2
     // 서버에 추가삭제시 post로 create = true면 추가 false면 삭제로 하자
     const fetchdata =ref( [])
@@ -18,40 +18,46 @@ import FirstViewpage from './FirstViewpage.vue';
 
     })
     const todoeditbtn = ref(null)
-  
+    const isguest = computed(()=>{
+      return store.getters.getguest
+    })
     const mydate = new Date().getDate()
         // console.log(userlogininfo.value)
     const tt = store.getters.userlogin
     const ttfalse = computed(()=>{return store.getters.getttfalse})
-    async function add(action){
-        num++
-        if(fetchdata.value.length==7){
-            return alert('최대갯수입니다')
-        }
-        const mydata = {
-            userid : userlogininfo.value,
-            id:'mydata'+num,
-            text : mytext.value,
-            done : false,
-            mode : 'add'
+//     async function add(action){
+//         num++
+//         if(fetchdata.value.length==7){
+//             return alert('최대갯수입니다')
+//         }
+//         const mydata = {
+//             userid : userlogininfo.value,
+//             id:'todo' + Date.now(),
+//             title:todotitle.value,
+//             text : todocontent.value,
+//             done : false,
+//             mode : 'add',
+//             create :  (date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') 
 
-        }
+//         }
 
-        // fetchdata.value.unshift(mydata)
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
-    // const fetcha = await fetch('http://localhost:3000/todo',{
-        method : 'POST',
-        headers:{
-            'Content-Type' : 'application/json'
-        },
-        body:JSON.stringify(mydata)
-    })
-    const result = await fetcha.json()
-    fetchdata.value = result 
+//         // fetchdata.value.unshift(mydata)
+    
 
-    mytext.value=''
+// const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+//     // const fetcha = await fetch('http://localhost:3000/todo',{
+//         method : 'POST',
+//         headers:{
+//             'Content-Type' : 'application/json'
+//         },
+//         body:JSON.stringify(mydata)
+//     })
+//     const result = await fetcha.json()
+//     fetchdata.value = result 
 
-    }
+//     mytext.value=''
+
+//     }
     //시작시 보여줄 화면
     const inputmodal = computed(()=>{
         return store.getters.gettodotf
@@ -64,7 +70,6 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
     }
 
     async function firstpage(){
-
 const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
         // const fetcha = await fetch('http://localhost:3000/todo',{
         method : 'POST',
@@ -78,19 +83,22 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
      if(fetcha!==undefined){
          const result = await fetcha.json()
          fetchdata.value = result 
+         store.commit('fetchtodo',result) 
      }
     }
-    console.log()
-    if(store.getters.getuserloginnow){
+    
+    if(!isguest){
         firstpage()
     }
 
 
 
     async function deletec(id){
-        
-        // fetchdata.value= fetchdata.value.filter((item)=>{ return item.id+idx != value+idx })
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+        if(isguest){
+          store.commit('deltodo',id) 
+        }else{
+  // fetchdata.value= fetchdata.value.filter((item)=>{ return item.id+idx != value+idx })
+  const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
             // const fetcha = await fetch('http://localhost:3000/todo',{
         method : 'POST',
         headers:{
@@ -105,10 +113,18 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
      if(fetcha!==undefined){
          const result = await fetcha.json()
          fetchdata.value = result 
+         store.commit('fetchtodo',result) 
      }
+        }
+      
     }
     async function comlist(id){
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+      const date = new Date()
+      if(isguest){
+          store.commit('uptodo',id) 
+          console.log(store.getters.gettodo)
+        }else{
+          const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
         // const fetcha = await fetch('http://localhost:3000/todo',{
         method : 'POST',
         headers:{
@@ -117,20 +133,24 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         body:JSON.stringify({
             id : id,
             mode : 'update',
-            userid : userlogininfo.value
+            userid : userlogininfo.value,
+            create : (date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시')
+
         })
      }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
      if(fetcha!==undefined){
          const result = await fetcha.json()
          fetchdata.value = result 
-
+         store.commit('fetchtodo',result) 
      }
+        }
+
         
     }
     function editboxopen(id){
             document.querySelector(`#displaybox${id}`).classList.remove('hidden')
         setTimeout(()=>{
-            document.querySelector(`#displaybox${id}`).classList.add('hidden')
+            document.querySelector(`#displaybox${id}`)?.classList.add('hidden')
         },2500)
         
     }
@@ -146,16 +166,16 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
 
 
     <!-- Page Content -->
-    <main id="page-content" class="flex flex-auto flex-col pt-20 lg:pt-0">
+    <main id="page-content" class="flex flex-auto flex-col pt-20 lg:pt-0 w-full">
       <!-- Kanban Board -->
       <div
         class="gap-6 overflow-x-auto px-4 py-6 lg:gap-8 lg:p-8"
       >
       <Todomodal v-if="inputmodal"/>
             <!-- Todo Heading -->
-            <div class="mb-4 flex  gap-6">
-            <h2 class="font-semibold todotext" >Todo</h2>
-            <div class="flex items-center gap-2">
+            <div class="mb-4 flex  gap-6 flex justify-center">
+            <h2 class="font-semibold todotext" >Todo-list</h2>
+            <div class="flex items-center gap-2 ">
               <!-- <button
                 type="button"
                 class="group inline-flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-slate-300 text-slate-400 hover:border-slate-500 hover:text-slate-950 active:border-slate-400"
@@ -175,10 +195,10 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
               <button
                @click="popup"
                 type="button"
-                class="group  inline-flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-slate-300 text-slate-400 hover:border-slate-500 hover:text-slate-950 active:border-slate-400"
+                class="group  inline-flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-slate-300 text-slate-400 hover:border-slate-500 hover:text-slate-950 active:border-slate-400"
               >
                 <svg
-                  class="hi-mini hi-pencil-square inline-block h-5 w-5 transition group-active:scale-90"
+                  class="hi-mini hi-pencil-square inline-block h-12 w-12 transition group-active:scale-90"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -196,7 +216,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
           </div>
         <!-- Todo -->
         
-        <div class=" grid grid-cols-4 gap-4">
+        <div class=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     
           <!-- END Todo Heading -->
 
@@ -211,7 +231,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
                 <div ref="todoeditbtn" class="relative">    
                   <button 
                     :id='"card-dropdown-"+idx'
-                    @click="editboxopen(idx,true)"
+                    @click="editboxopen(idx)"
                     class="flex h-6 w-6 items-center justify-center text-slate-400 hover:text-slate-600 active:text-slate-400"
                   >
                     <svg
@@ -237,6 +257,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
                       <div class="flex flex-col gap-2 p-2">
                         <button
                           type="button"
+                          @click="comlist(x.id)"
                           class="group inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2.5 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-600"
                         >
                           <svg
@@ -253,6 +274,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
                           <span>Done</span>
                         </button>
                         <button
+                          @click="deletec(x.id)"
                           type="button"
                           class="group inline-flex items-center gap-1 rounded-lg bg-slate-50 px-2.5 py-1 text-sm font-medium text-slate-600 hover:bg-rose-50 hover:text-rose-600"
                         >
@@ -280,9 +302,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
               </div>
               <!-- END Action -->
 
-              <!-- Card 1 -->
-              <a
-                href="javascript:void(0)"
+              <div                
                 class="group flex flex-col gap-3 rounded-xl bg-white p-4 text-sm transition hover:shadow-lg hover:shadow-slate-200"
               >
                 <div class="-ms-1.5 flex grow flex-wrap gap-1 pe-6">
@@ -292,8 +312,8 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
                   >
                 </div>
                 <div>
-                  <h3 class="mb-1 font-bold">{{x.title}}</h3>
-                  <p class="line-clamp-3 text-slate-500">
+                  <h3 :class="{'mb-1 font-bold text-2xl truncate ':true, 'line-through text-red-600' : x.done}">{{x.title}}</h3>
+                  <p :class="{'line-clamp-3 text-slate-500 text-lg truncate ' : true, 'line-through text-red-600' : x.done}">
                     {{ x.text }}
                   </p>
                 </div>
@@ -321,8 +341,8 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
                   </div>
                 
                 </div>
-              </a>
-              <!-- END Card 1 -->
+              </div>
+     
             </div>
             <!-- END Card 1 Container -->
 
