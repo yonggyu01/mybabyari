@@ -47,6 +47,7 @@ async function generateContent(location, weather) {
        
 
     } catch (error) {
+        alert('서버가 닫혀있어 기능사용이 어렵습니다 관리자에게 문의하세요')
         console.error(error);
     }
 }

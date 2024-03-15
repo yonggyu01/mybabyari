@@ -1,10 +1,10 @@
 <template>
     <div class="fullwrap">
-      
+   
         <div class="firstlogoWrap">
             <div class="mymanwrap">
                 <img src="../assets/img/myman.png" alt="" class="myman" @click="hide" :style="znum">   
-                <p v-show="hidep==0"><a href="#none" @click="hide">Click me</a></p> 
+                <p v-show="hidep==0"><a href="#none" @click="hide" class="flex flex-row">Click me</a></p> 
             </div>
        
      
@@ -18,17 +18,17 @@
         <div class="wraproundbox" :style="{transform : transy}">
             <div class="roundbox"></div>
             <div class="roundbox2" ></div>
-  
         </div>
-        <div class="loginbtn" :style="signupcom">
+        <div class="loginbtn" :style="signupcom" >
             <h1><a href="#none" @click="slideupdown">Welcome</a></h1>
-            <p>육아정보 페이지에 오신걸 환영합니다.</p>
+            <p> 육아정보 페이지에 오신걸 환영합니다. </p>
             <form action="server.js" method="post" name="signlog" id="signlog" >
                 <fieldset >
                     <legend class="xx"> 회원가입 및 로그인 </legend>
                     <div class="wrapflexbod" >
-                        <button type="button" @click="gogo('sign')">Sign up</button>
-                        <button type="button" @click="gogo('login')">Login</button>
+                        <button type="button" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click="gogo('sign')">Sign up</button>
+                        <button type="button" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click="gogo('login')">Login</button>
+                        <button type="button" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500 "  @click="gogo('guest')">Guest</button>
                     </div>
                     <div class="signpage" >
                         <div class="signpageback"><a href="#none" @click="hide">Back</a></div>
@@ -51,8 +51,9 @@ import signbtn from '../views/SignPage.vue'
 import loginbtn from '../views/LoginPage.vue'
 
 export default {
+
     components:{
-        signbtn,loginbtn,
+        signbtn,loginbtn
     },
     data(){
         return{
@@ -84,7 +85,7 @@ export default {
                 this.signupcom='top:-10vh'
                 this.joinpageview.transform= `translateY(40px)`
                 this.transy.transform= `translateY(-800px)`
-            }else{
+            }else if(value=='login'){
                 this.logingo =1
                 this.signgo=1
                 this.signupcom='top:45vh'
@@ -93,6 +94,12 @@ export default {
                 setTimeout(() => {
                     this.loginopacity = 'opacity:1'
                 }, 1000);
+            }else{
+                this.$store.commit('setfirstlogin', 1) 
+                this.$store.commit('setuserloginnow', true)
+                this.$store.commit('setguest', true )
+                  this.$router.replace('/loginsuc')
+              alert('서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
             }
             
         },
@@ -116,7 +123,8 @@ export default {
     },
     computed:{
   
-    }
+    },
+    
 }
 </script>
 <style scoped>
@@ -204,6 +212,19 @@ export default {
     background-color: #3c3c3c;
     width: 4em;
     color:white;
+    border-top-left-radius: calc(2em/2);
+    border-bottom-left-radius: calc(2em/2);
+    border-top-right-radius:calc(2em/2) ;
+    border-bottom-right-radius: calc(2em/2);
+    font-size:2em ;
+    box-shadow:0px 1px 4px #00000066;
+    cursor: pointer;
+}
+.wrapflexbod button:last-child{
+    border: none;
+    background-color: #c6c6c6;
+    width: 4em;
+    color:rgb(79, 78, 78);
     border-top-left-radius: calc(2em/2);
     border-bottom-left-radius: calc(2em/2);
     border-top-right-radius:calc(2em/2) ;

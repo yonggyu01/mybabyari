@@ -22,7 +22,7 @@
                     <h4>가격 : {{ Number(x.price.replace(/,/,'').replace(/원/,''))* Number(x.Quantity) + '원' }} </h4>
                   </div>
                   <div class="btnbox">
-                    <button v-if="ttfalse" class="delbtn" @click="del(idx)">삭제</button>
+                    <button v-if="ttfalse" class="delbtn" @click="del(x.id)">삭제</button>
                     <button v-else class="delbtn" @click="del(x.id)">del</button>
                   </div>
                 </li>
@@ -33,11 +33,16 @@
 </template>
 
 <script setup>
-import { computed,ref } from "vue";
+import { compile, computed,onMounted,ref } from "vue";
 import { useStore } from "vuex";
 const store = useStore()
+const isguest = computed(()=>{
+      return store.getters.getguest
+    })
 const myq = ref([])
-let mycartdata = ref([])
+let mycartdata = computed(()=>{
+  return store.getters.getbaguni
+})
 const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.getters.userlogin})
 // computed(()=>{
 //   return store.getters.getbaguni
@@ -47,10 +52,13 @@ const ttfalse = computed(()=>{
 })
 
 async function del(id){
+  if(isguest){
+ store.commit('delbaguni',id)
+}else{
   const fdata = {
     mode : 'del',
     id : id,
-    userid : userlogininfo.value
+    // userid : userlogininfo.value
   }
   const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
     method:'POST',
@@ -62,13 +70,17 @@ async function del(id){
   const result =await fetcha.json()
   mycartdata.value=result
 
-
-
   // store.commit('delbaguni', num)
   // console.log(store.getters.getbaguni)
 }
+  
+}
+onMounted(()=>{
+  fetchdata()
+})
 async function fetchdata (){
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
+if(!isguest){
+  const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
   // const fetcha = await fetch('http://localhost:3000/cart',{
     method:'POST',
     headers:{
@@ -76,14 +88,15 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
     },
     body : JSON.stringify({
       userid : userlogininfo.value,
-      
     })
   })
   const result =await fetcha.json()
   mycartdata.value=result
-  console.log(result)}
+  console.log(result)
+}
+}
 
-  fetchdata()
+
 </script>
 
 

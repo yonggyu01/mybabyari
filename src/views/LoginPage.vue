@@ -2,18 +2,17 @@
   <div class="login">
     <div class="page" reg="page" v-html="mypage"></div>
     <form action="/" on-submit.prevnt="">
-      <input type="text" id="user_loginID" placeholder="아이디 입력" v-model="userid" @enter.stop="noenter">
-      <input type="password" name="pass" id="user_loginPass" v-model="userpass" placeholder="비밀번호 입력"
+      <input type="text" id="user_loginID" class="text-center" placeholder="아이디 입력" v-model="userid" @enter.stop="noenter">
+      <input type="password" name="pass" id="user_loginPass" v-model="userpass" class="text-center" placeholder="비밀번호 입력"
         @enter.stop="noenter">
-      <input type="button" value="로그인" id="loginbtn" @click="gonext">
+      <input type="button" value="로그인" id="loginbtn" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click="gonext">
     </form>
     <div id="naver_id_login">
       <span @click="logoutkakao"></span>
-      <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)'>네이버로그인</a>
-      <a href="#none" id="myfetch2" @click="loginkakao(myaccess)">카카오로그인</a>
+      <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)' class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">네이버로그인</a>
+      <a href="#none" id="myfetch2" @click="loginkakao(myaccess)" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">카카오로그인</a>
       <form action="" ref="myform" id="myaccount">
       </form>
-
     </div>
   </div>
 </template>
@@ -30,7 +29,7 @@ const userid = ref('')
 const userpass = ref('')
 const store = useStore()
 if(store.getters.getfirstlogin==0){
-  Kakao.init('e95013522170bcd46c5917164368de34');
+  Kakao.init(process.env.VUE_APP_Kakao);
 }
 const mynaveraccess = ref('')
 const myaccess = ref('')
@@ -55,7 +54,7 @@ const gonext = async () => {
       body: raw
     };
     // if(store.getters.getsigndata.id==userid.value){
-      const my = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account/', requestOptions)
+      const my = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account/', requestOptions).catch(err=>{alert('서버가 닫혀있습니다 관리자에게 문의하세요')})
       // const my = await fetch('http://localhost:3000/account', requestOptions)
     
     const result = await my.json()
@@ -64,7 +63,7 @@ const gonext = async () => {
      alert(result.result)
     } else if( result.name){
       console.log(result)
-      store.commit('userloginnow', true)
+      store.commit('setuserloginnow', true)
       store.commit('signup', result)
       router.replace('/loginsuc')
       console.log(store.userloginnow)
@@ -72,7 +71,6 @@ const gonext = async () => {
       // if(store.getters.getsigndata.id==userid.value){
       // }
     }
-
     //   else{
 
     //   store.commit('signup', userid)
@@ -89,10 +87,7 @@ async function loginnaver() {
   const access_token = store.getters.getkakaoauth
   if (!access_token) { alert('네이버 회원가입부터 진행하세요') }else{
     store.commit('setfirstlogin', 1)
-
   } 
-    
-   
 }
 const logoutkakao = async () => {
   const url = 'https://kapi.kakao.com/v1/user/logout'
@@ -103,7 +98,7 @@ const logoutkakao = async () => {
     method: 'POST',
   }
   const logoutdata = await fetch(url, option)
-  const result = await logoutdata
+  const result = await logoutdata.json()
   console.log(result)
 }
 let switchkakao = computed(()=>{return store.getters.getfirstlogin == 0 ? true : false }) 
@@ -123,7 +118,10 @@ const loginkakao = async () => {
   //  const f_result = await userinfo
   //  console.log(f_result)
   if (!access_token) { alert('카카오 회원가입부터 진행하세요') } else {
-    Kakao.isInitialized();
+    
+    if(!Kakao.isInitialized()){
+      Kakao.isInitialized()
+    };
     Kakao.Auth.setAccessToken(access_token);
     Kakao.API.request({
       url: '/v2/user/me',
@@ -154,7 +152,7 @@ const loginkakao = async () => {
           mode:'cors',
           body: raw
         };
-      const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+      const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions).catch(err => alert('로그인 서버가 닫혀있습니다, 관리자에게 문의하세요 010-2190-6008'))
   // const mydate =  fetch("http://localhost:3000/account", requestOptions)
       store.commit('setfirstlogin', 1) 
       router.replace('/loginsuc')
@@ -241,8 +239,6 @@ mymy.addEventListener('click',fetchnaver)
 
 
 */
-
-
 const noenter = (e) => {
   console.log(e)
   if (e.key == 'Enter') {
@@ -259,7 +255,7 @@ const noenter = (e) => {
 
 .login input {
   margin-bottom: 10px;
-  width: 90vw;
+  width: 85vw;
   height: 30px;
   font-size: 18px;
   padding-left: 5px;
@@ -273,7 +269,7 @@ const noenter = (e) => {
 #loginbtn {
   color: white;
   background-color: rgb(67, 67, 67);
-  width: 90vw;
+  width: 85vw;
   font-size: 20px;
   /* border: 1px solid white; */
 
@@ -284,7 +280,7 @@ const noenter = (e) => {
 #naver_id_login {
   display: flex;
   justify-content: space-evenly;
-  width: 90vw;
+  width: 85vw;
 
 }
 
@@ -292,7 +288,7 @@ const noenter = (e) => {
   color: white;
   box-shadow: 1px 1px 3px #00000038;
   background-color: rgb(106, 219, 61);
-  width: 45vw;
+  width: 40vw;
   font-size: 20px;
   text-align: center;
   border-top-left-radius: 25px;
@@ -305,7 +301,7 @@ const noenter = (e) => {
 #myfetch2 {
   color: rgb(11, 11, 11);
   background-color: rgb(219, 205, 61);
-  width: 45vw;
+  width: 40vw;
   box-shadow: 1px 1px 3px #00000038;
 
   font-size: 20px;

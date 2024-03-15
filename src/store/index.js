@@ -118,7 +118,11 @@ export default createStore({
     signdata : null,
     shoppingcart:[],
     baguni:[],
-    userpoint : 0
+    userpoint : 0,
+    guest: false,
+    todo:[],
+    todotf:false,
+
   },
   getters: {
     userlogin(state){
@@ -214,6 +218,18 @@ export default createStore({
       },
       getuserpoint(state){
         return state.userpoint
+      },
+      getguest(state){
+        return state.guest
+      },
+      gettodo(state){
+        return state.todo
+      },
+      getuserloginnow(state){
+        return state.userloginnow
+      },
+      gettodotf(state){
+      return state.todotf
       }
 
   },
@@ -224,7 +240,7 @@ export default createStore({
     signup(state,value){
       return state.userid = value
     },
-    userloginnow(state,value){
+    setuserloginnow(state,value){
       return state.userloginnow = value
     },
     setnowpage(state,pagename){
@@ -317,14 +333,41 @@ export default createStore({
     setbaguni(state,value){
       return state.baguni.push(value)
     },
+    fetchbaguni(state,value){
+      return state.baguni = value
+    },
     delbaguni(state,value){
-      return state.baguni = state.baguni.filter((item,idx)=>{return idx != value})
+      return state.baguni = state.baguni.filter((item,idx)=>{return item.id != value})
     },
     setmynavercode(state,value){
       return state.mynavercode = value
     },
     setuserpoint(state,value){
       return state.userpoint += value
+    },
+    setguest(state,boolean){
+      return state.guest = boolean
+    },
+    settodo(state,text){
+      return state.todo= [...state.todo, text]
+    },
+    fetchtodo(state,object){
+      return state.todo = object
+    },
+    deltodo(state,id){
+    return state.todo = state.todo.filter((item)=>{return item.id != id})
+    },
+    uptodo(state,id){
+    return state.todo = state.todo.map((item)=>{
+      if(item.id == id){
+          const date = new Date()
+          return item = {...item, done : !item.done, create :(date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') }
+      }else{
+        return item
+      }})
+    },
+    settodotf(state,boolean){
+      return state.todotf = boolean
     }
   },
   actions: {

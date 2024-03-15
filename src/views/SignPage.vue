@@ -37,13 +37,18 @@
           </tbody>
         </table>
         <div class="wrapbox">  
-          <button id="joinbtn"  @click.prevent="signupbtn" v-show="hiding"> 회원가입하기 </button>
-          <button id="joinbtn1"  type="submit" v-show="!hiding" @click.prevent="signmypage"> 회원가입하기 </button>
-          <button id="joinbtn2"  @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
+          <button id="joinbtn" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black bg-slate-200 transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click.prevent="signupbtn" v-show="hiding"> 회원가입하기 </button>
+     
+    
+
+ 
+          <button id="joinbtn1" class="inline-block rounded border border-current px-8 py-3 bg-slate-200 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-pink" type="submit" v-show="!hiding" @click.prevent="signmypage"> 회원가입하기 </button>
+          <button id="joinbtn2" class="inline-block rounded border border-current px-8 bg-slate-200 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500" @click.prevent="signupbtn" v-show="!hiding"> 돌아가기 </button>    
         </div>
         <div class="buttonwraping">
             <!-- <button type="button" id="naversign" @click="req">네이버</button> -->
-            <button type="button" id="kakaosign" @click="kakao">카카오톡</button>
+            <button type="button" id="kakaosign" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  @click="kakao">카카오톡</button>
+            <button type="button"  id="naversign" class="inline-block rounded border border-current px-8 py-3 text-sm font-medium text-black transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500"  v-show="guest" @click="guestgo">게스트로 진행</button>
             <form action="" ref="myform" > 
                   </form>
         </div>
@@ -53,12 +58,18 @@
     </template>
 
     <script setup>
-    import {ref,onBeforeMount, onMounted} from 'vue'
+    import {ref,onBeforeMount, onMounted, computed} from 'vue'
     import { useStore } from 'vuex';
     import { useRoute,useRouter } from 'vue-router';
     const store = useStore()
     let redirect_uri = `${location.href}`
-
+    const guest = computed(()=>{
+      return store.getters.getguest
+    }) 
+   console.log(store, '스토어')
+    function setguest(){
+      store.commit('setguest', true )
+    }
     const myform = ref(null)
     const myid=ref(null)
     const passw =ref(null)
@@ -75,9 +86,8 @@
           const hiding =ref(true)
     const signupbtn=(e)=>{
         hiding.value=!hiding.value
-
     }
-
+  
     async function signmypage(e){
     // 태그   myid   myname passcheck  passw  focus() 용도임
     const mydata = [myid,myname,passcheck,passw]
@@ -114,14 +124,21 @@
     }else{
       
     const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
-    // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
-    const result = await mydate.json()
+    .then(res=> {
+      const result = mydate
     console.log(result)
+    alert('가입성공 로그인해주세요')
+    })
+    .catch(err=> {
+      setguest()
+      alert('서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
+  
+  })
+    // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
+ 
       // .then(result =>  store.commit('setsigndata', result))
       // .catch(error => console.log('error', error));
     }
-
-
   mydata.forEach((item,idx) => {
       console.log(item)
     if(!item.value.value){
@@ -133,8 +150,6 @@
     }
     onBeforeMount(() => {
     })
-
-   
       onMounted(()=>{
       if(route.query.state&&route.query.state=='kakaoreturn'){
         opener.kakaoreturn(route.query.code)
@@ -147,10 +162,17 @@
       window.close()
     }
       })
+      function guestgo(){
+        store.commit('setfirstlogin', 1) 
+        store.commit('setuserloginnow', true)
+      store.commit('setguest', true )
+ 
+      router.replace('/loginsuc')
+      }
       // 카카오 인증
       const kakao =async()=>{
           const url ='https://kauth.kakao.com/oauth/authorize'
-          const client_id ='e70be9702841c3bccff0ed4af83a83a9'
+          const client_id =process.env.VUE_APP_Kakao_client
             // console.log(location.href)
           
             if(location.href.match(/#none/gm)){
@@ -176,8 +198,8 @@
           // 카카오 토큰발급
         const kakaoreq= async (value)=>{
           const url ='https://kauth.kakao.com/oauth/token'
-          const client_id ='e70be9702841c3bccff0ed4af83a83a9'
-          const client_secret = 'kUetYsMO5y8vv2WL7KJJCunRkiAgvLFf'
+          const client_id =process.env.VUE_APP_Kakao_client
+          const client_secret = process.env.VUE_APP_Kakao_secret
           const grant_type = 'authorization_code'
           const nonce = 'myfirstid'
           const scope = 'profile_nickname, account_email'
@@ -206,7 +228,9 @@
         console.log(store.getters.getkakaoauth)
         } 
         catch(error){
-          console.error(error);
+          setguest()
+      alert('회원가입 서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
+
         }
       }
       // 카카오 코드발급받은것 저장
@@ -219,7 +243,7 @@
         const req = async () => {
       const url = 'https://nid.naver.com/oauth2.0/authorize'
       const response_type = 'code'
-      const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
+      const client_id = process.env.VUE_APP_Naver_id
     //   const redirect_uri = 'http://localhost:8080/naver'
       const state = encodeURI('naverreturn')
       let fullurl = url + `?response_type=${encodeURI(response_type)}&client_id=${encodeURI(client_id)}&redirect_uri=${encodeURI(redirect_uri)}&state=${encodeURI(state)}`
@@ -246,7 +270,6 @@
     navertoken(value)
   // const authorization_code = value
 
-  // const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
   // const grant_type = 'authorization_code'
   // const mystate = encodeURI('navertoken')
   // const tokenurl = 'https://nid.naver.com/oauth2.0/token'
@@ -273,7 +296,7 @@
 function navertoken(value){
   // 노드서버에서 로그인시키기
   const authorization_code = value
-  const client_id = 'QJ5hHy5NLVcKEmQDp7OS'
+  const client_id = process.env.VUE_APP_Naver_id
   const grant_type = 'authorization_code'
   const mystate = encodeURI('navertoken')
   const tokenurl = 'https://nid.naver.com/oauth2.0/token'
