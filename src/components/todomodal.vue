@@ -57,12 +57,10 @@ const userlogininfo = computed(()=>{ return store.getters.userlogin.id || store.
 async function add(action){
   if(!todotitle.value || !todocontent.value){
    return alert('내용이 비어있습니다.')
-  }else if(isguest){
+  }else if(isguest.value){
     settodo()
   }else{
-    
   const date = new Date()
-
       const mydata = {
           userid : userlogininfo.value,
           id:'todo' + Date.now(),
@@ -72,10 +70,7 @@ async function add(action){
           mode : 'add',
           create :  (date.getMonth()+1) + '월' + (date.getDate()+'일')+ (date.getHours()+'시') 
       }
-
       // fetchdata.value.unshift(mydata)
-
-
       const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
       // const fetcha = await fetch('http://localhost:3000/todo',{
       method : 'POST',
@@ -84,9 +79,13 @@ async function add(action){
       },
       body:JSON.stringify(mydata)
       })
+      if(fetcha!==undefined){
       const result = await fetcha.json()
-      store.commit('settodo',result) 
+      console.log(result,'결과값 가져옴 서버')
+      store.commit('fetchtodo',result)  
+      store.commit('settodotf',false)
         }
+      }
 
     }
 

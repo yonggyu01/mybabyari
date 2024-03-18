@@ -69,9 +69,10 @@ app.get("/*", (req, res) => {
 // newtodolist 유저 아이디속에 데이터 넣고 빼는거로 다시 짜보자
 // 배열.splice(index,잘라낼양,잘라낸곳에 넣을 데이터) 이렇게 수정하면 될듯? 
 app.post('/todo', async (req, res) => {
+  console.log('todo 요청',req.body)
   if(req.body.userid && !req.body.id){
     
-    userinfo=jsonfile.filter((item,idx)=>{ return item.id == req.body.userid})[0]
+    userinfo=jsonfile.filter((item)=>{ return item.id == req.body.userid})[0]
     console.log(userinfo,'재접속시 내용받아오는지')
     // console.log(jsonfile.filter((item,idx)=>{ return item.id == req.body.userid})[0],'스프레드')
     //  console.log(userinfo,'재접속시 내용받아오는지')
@@ -109,7 +110,7 @@ app.post('/todo', async (req, res) => {
     userinfo.todolist.forEach((item)=>{
       if(item.id == req.body.id){
         item.done = !item.done
-        console.log(req.body)
+        item.create = req.body.create
         jsonfile.forEach((item, idx)=>{ 
           if(item.id == req.body.userid){
           jsonfile.splice(idx, 1, userinfo)
@@ -246,7 +247,7 @@ app.post('/cart', async (req, res) => {
 // })
 
 app.post('/account', async (req, res) => {
-  console.log(req)
+  console.log(req.body)
   let user = {}
   if (req.body?.newaccount == true) {
     for (let x of jsonfile) {

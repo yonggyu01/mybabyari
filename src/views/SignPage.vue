@@ -122,18 +122,17 @@
     if(yourpass.value != passcheckme.value){
       return alert('비밀번호가 틀렸습니다.')
     }else{
-      
-    const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
-    .then(res=> {
-      const result = mydate
-    console.log(result)
-    alert('가입성공 로그인해주세요')
-    })
-    .catch(err=> {
+    try{
+      const mydate =  await fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions)
+      const result = await mydate.json()
+      console.log(result)
+      alert('가입성공 로그인해주세요')
+
+    }catch{err=> {
       setguest()
       alert('서버가 닫혀있어 게스트 계정으로 진행합니다. 대부분의 기능 사용이 불가능합니다.')
   
-  })
+  }}
     // const mydate =  await fetch("http://localhost:3000/account", requestOptions)
  
       // .then(result =>  store.commit('setsigndata', result))

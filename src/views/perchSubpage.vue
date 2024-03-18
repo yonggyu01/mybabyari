@@ -60,6 +60,7 @@ const number = ref(route.params.item)
 console.log(number.value)
 console.log(getbaby.value, '베이비')
 async function pushitem(){
+console.log(  getbaby.value[number.value].price ,'얼만데?')
   const userdata = {
         // userid : userlogininfo.value,
         price : getbaby.value[number.value].price,
@@ -69,7 +70,7 @@ async function pushitem(){
         mode : 'add',
         id : new Date() + Math.random().toFixed(2)*100
         }
-  if(isguest){
+  if(isguest.value){
     store.commit('setbaguni',userdata)
     router.go(-1)
   }else{
@@ -84,7 +85,7 @@ async function pushitem(){
         if(fetcha!==undefined){
           const resultd = await fetcha.json()
         console.log(resultd)
-        store.commit('setbaguni',resultd)
+        store.commit('fetchbaguni',resultd)
         // console.log(store.getters.getcart)
         router.go(-1)
     }else{
@@ -93,7 +94,7 @@ async function pushitem(){
   }
 }
 async function fetchdata (){
-  if(!isguest){
+  if(!isguest.value){
     const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
   // const fetcha = await fetch('http://localhost:3000/cart',{
     method:'POST',
@@ -107,6 +108,7 @@ async function fetchdata (){
   }).catch(err=>console.log(err))
   if(fetcha!==undefined){
     const result =await fetcha.json()
+    store.commit('fetchbaguni',result)
     console.log(result)
   }
   // mycartdata.value=result

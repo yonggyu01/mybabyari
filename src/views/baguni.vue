@@ -19,6 +19,7 @@
                       <option value="5">5</option>
                     </select></span>
                     </h4>
+                    <!-- {{ x.price }} -->
                     <h4>가격 : {{ Number(x.price.replace(/,/,'').replace(/원/,''))* Number(x.Quantity) + '원' }} </h4>
                   </div>
                   <div class="btnbox">
@@ -52,7 +53,7 @@ const ttfalse = computed(()=>{
 })
 
 async function del(id){
-  if(isguest){
+  if(isguest.value){
  store.commit('delbaguni',id)
 }else{
   const fdata = {
@@ -68,7 +69,7 @@ async function del(id){
     body : JSON.stringify(fdata)
   })
   const result =await fetcha.json()
-  mycartdata.value=result
+  store.commit('fetchbaguni',result)
 
   // store.commit('delbaguni', num)
   // console.log(store.getters.getbaguni)
@@ -79,7 +80,7 @@ onMounted(()=>{
   fetchdata()
 })
 async function fetchdata (){
-if(!isguest){
+if(!isguest.value){
   const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/cart',{
   // const fetcha = await fetch('http://localhost:3000/cart',{
     method:'POST',

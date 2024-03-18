@@ -23,6 +23,7 @@ import { useRouter } from 'vue-router';
 import {computed, ref} from 'vue'
 const store = useStore()
 const router = useRouter()
+
 function movepage(number){
   router.push({
     name:'perchSub',

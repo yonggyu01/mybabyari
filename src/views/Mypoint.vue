@@ -8,8 +8,10 @@ import Todomodal from '../components/todomodal.vue'
     const mytitle = ref('')
     let num = 2
     // 서버에 추가삭제시 post로 create = true면 추가 false면 삭제로 하자
-    const fetchdata =ref( [])
     const store = useStore()
+    const fetchdata =computed(()=>{
+      return store.getters.gettodo
+    })
     const todotext = computed(()=>{
         return store.getters.gettodo
     })
@@ -19,6 +21,7 @@ import Todomodal from '../components/todomodal.vue'
     })
     const todoeditbtn = ref(null)
     const isguest = computed(()=>{
+      
       return store.getters.getguest
     })
     const mydate = new Date().getDate()
@@ -70,7 +73,12 @@ import Todomodal from '../components/todomodal.vue'
     }
 
     async function firstpage(){
-const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
+      console.log(isguest.value ,'게스트는 뭐지')
+      if(isguest.value){
+
+      }else{
+        console.log( '서버로 todo요청')
+        const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/todo',{
         // const fetcha = await fetch('http://localhost:3000/todo',{
         method : 'POST',
         headers:{
@@ -81,20 +89,24 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
         })
      }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
      if(fetcha!==undefined){
-         const result = await fetcha.json()
-         fetchdata.value = result 
-         store.commit('fetchtodo',result) 
+       const result = await fetcha.json()
+      //  fetchdata.value = result 
+       store.commit('fetchtodo',result)  
+       console.log(result)
      }
+ 
+      }
+
     }
     
-    if(!isguest){
-        firstpage()
-    }
+   
+      firstpage()
+
 
 
 
     async function deletec(id){
-        if(isguest){
+        if(isguest.value){
           store.commit('deltodo',id) 
         }else{
   // fetchdata.value= fetchdata.value.filter((item)=>{ return item.id+idx != value+idx })
@@ -112,7 +124,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
      }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
      if(fetcha!==undefined){
          const result = await fetcha.json()
-         fetchdata.value = result 
+        //  fetchdata.value = result 
          store.commit('fetchtodo',result) 
      }
         }
@@ -120,7 +132,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
     }
     async function comlist(id){
       const date = new Date()
-      if(isguest){
+      if(isguest.value){
           store.commit('uptodo',id) 
           console.log(store.getters.gettodo)
         }else{
@@ -140,7 +152,7 @@ const fetcha = await fetch('https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cl
      }).catch(err => alert('서버가 닫혀있습니다 관리자에게 문의바랍니다.'))
      if(fetcha!==undefined){
          const result = await fetcha.json()
-         fetchdata.value = result 
+        //  fetchdata.value = result 
          store.commit('fetchtodo',result) 
      }
         }
