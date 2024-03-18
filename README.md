@@ -1,5 +1,6 @@
-# returnmybabytt
+deploy : https://engproject-ba2f9.firebaseapp.com/
 
+<<<<<<< HEAD
  key 등록
  .env 파일 오픈
  Youtube data3  api 키 입력
@@ -42,3 +43,8 @@ http://localhost:3000  으로 브라우저에서 접속
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+server-   : https://app.cloudtype.io/@yonggyu01/free-server
+
+sever endpoint :  https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/
+>>>>>>> 1e8dc18d5a8e20e86dcd603aa1d72cab0c298a77
