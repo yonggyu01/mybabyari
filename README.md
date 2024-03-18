@@ -1,19 +1,5 @@
-# returnmybabytt
+deploy : https://engproject-ba2f9.firebaseapp.com/
 
-## Project setup
-```
-npm install
-```
+server-   : https://app.cloudtype.io/@yonggyu01/free-server
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+sever endpoint :  https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/
