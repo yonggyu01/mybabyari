@@ -14,7 +14,7 @@ let corsOptions = {
 //npm install express 
 //npm install cors
 //npm install body-parser
-//npm install express @google/generative-ai fs
+////npm install express @google/generative-ai fs
 //> npm install @google/generative-ai
 //npm i dotenv @google/generative-ai
 
@@ -314,7 +314,7 @@ function filemake() {
 app.post('/generate_easy', async (req, res) => {
   try {
     const MODEL_NAME = "gemini-pro";
-    const genAI = new GoogleGenerativeAI(process.env.api_key);
+    const genAI = new GoogleGenerativeAI(process.env.geminiapi_key);
     const safetySettings = [
       {
         category: HarmCategory.HARM_CATEGORY_HARASSMENT,

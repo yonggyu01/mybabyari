@@ -1,6 +1,5 @@
 deploy : https://engproject-ba2f9.firebaseapp.com/
 
-<<<<<<< HEAD
  key 등록
  .env 파일 오픈
  Youtube data3  api 키 입력
@@ -8,7 +7,7 @@ deploy : https://engproject-ba2f9.firebaseapp.com/
 VUE_APP_Kakao  : vue_app_kakao 입력
 VUE_APP_Kakao_client = 카카오 개발자 rest api키 입력
 VUE_APP_Kakao_secret = 카카오 개발자 client sceret키 입력
-
+geminiapi_key = 구글 gemini api키 받아와서 등록
 
 ## Project setup
 ```
@@ -43,8 +42,3 @@ http://localhost:3000  으로 브라우저에서 접속
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-=======
-server-   : https://app.cloudtype.io/@yonggyu01/free-server
-
-sever endpoint :  https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/
->>>>>>> 1e8dc18d5a8e20e86dcd603aa1d72cab0c298a77
