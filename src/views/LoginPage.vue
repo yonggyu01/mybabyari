@@ -9,10 +9,9 @@
     </form>
     <div id="naver_id_login">
       <span @click="logoutkakao"></span>
-      <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)' class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">네이버로그인</a>
+      <!-- <a href="#none" id="myfetch" @click='loginnaver(mynaveraccess)' class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">네이버로그인</a> -->
       <a href="#none" id="myfetch2" @click="loginkakao(myaccess)" class="transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:text-indigo-500">카카오로그인</a>
-      <form action="" ref="myform" id="myaccount">
-      </form>
+   
     </div>
   </div>
 </template>
@@ -155,6 +154,7 @@ const loginkakao = async () => {
       const mydate = fetch("https://port-0-gemini-server-f9ohr2alrrcybbl.sel5.cloudtype.app/account", requestOptions).catch(err => alert('로그인 서버가 닫혀있습니다, 관리자에게 문의하세요 010-2190-6008'))
   // const mydate =  fetch("http://localhost:3000/account", requestOptions)
       store.commit('setfirstlogin', 1) 
+      store.commit('setuserloginnow', true)
       router.replace('/loginsuc')
       })
       .catch(function (error) {
@@ -301,7 +301,7 @@ const noenter = (e) => {
 #myfetch2 {
   color: rgb(11, 11, 11);
   background-color: rgb(219, 205, 61);
-  width: 40vw;
+  width: 85vw;
   box-shadow: 1px 1px 3px #00000038;
 
   font-size: 20px;
