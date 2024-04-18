@@ -33,11 +33,12 @@
                     <div class="signpage" >
                         <div class="signpageback"><a href="#none" @click="hide">Back</a></div>
                         <section id="joinpage" class="joinpage" :style="joinpageview">
-                            <signbtn></signbtn>    
+                            <Signbtn></Signbtn>    
                   
 
                 </section>
-                <loginbtn v-show="logingo == 1" :style="loginopacity"> </loginbtn>
+                <Loginbtn v-if="logingo == 1" :style="loginopacity"> </Loginbtn>
+              
                       
                     </div>
                 </fieldset>
@@ -47,13 +48,13 @@
 
 </template>
 <script>
-import signbtn from '../views/SignPage.vue'
-import loginbtn from '../views/LoginPage.vue'
+import Signbtn from '../views/SignPage.vue'
+import Loginbtn from '../views/LoginPage.vue'
 
 export default {
 
     components:{
-        signbtn,loginbtn
+        Signbtn,Loginbtn
     },
     data(){
         return{
@@ -81,12 +82,13 @@ export default {
                 this.signgo=2
                 this.logingo =0 
                 this.loginopacity = 'opacity:0'
-                console.log(this.signup)
+            
                 this.signupcom='top:-10vh'
                 this.joinpageview.transform= `translateY(40px)`
                 this.transy.transform= `translateY(-800px)`
             }else if(value=='login'){
-                this.logingo =1
+                this.logingo=1
+                console.log(this.logingo , '로그인')
                 this.signgo=1
                 this.signupcom='top:45vh'
                 this.transy.transform=`translateY(-600px)`
